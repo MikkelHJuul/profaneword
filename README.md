@@ -1,14 +1,15 @@
 # profaneword
-profane password generator (probably insecure), as suggested by [u/gatestone](https://www.reddit.com/r/golang/comments/r5hn12/comment/hmnyk9k/?utm_source=share&utm_medium=web2x&context=3).
+profane password generator (probably insecure), as suggested by [u/gatestone](https://www.reddit.com/r/golang/comments/r5hn12/comment/hmnyk9k/?utm_source=share&utm_medium=web2x&context=3). This is still missing some requirements: special characters etc. maybe a `--safe` flag that inserts special characters or something. but it's a start!
 
 ## how it works
 
-```bash 
-❯ go install github.com/MikkelHJuul/profaneword/profaneword@latest
-go: downloading github.com/MikkelHJuul/profaneword v0.0.0-20211203132212-f19997fe411f
-go: downloading github.com/spf13/cobra v1.2.1
+install:
 
-~ took 6s 
+```bash
+go install github.com/MikkelHJuul/profaneword/profaneword@v0.1.1
+```
+play
+```bash 
 ❯ profaneword 
 misbehaved stoner
 
@@ -62,5 +63,12 @@ Use "profaneword [command] --help" for more information about a command.
 
 ~ 
 
-```
 
+❯ echo DASDAD |profaneword obscure /s 
+DasDad
+
+~ 
+❯ echo DASDAD |profaneword obscure 1337
+D45D4D
+
+```
