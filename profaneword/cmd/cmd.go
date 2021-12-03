@@ -3,6 +3,7 @@ package cmd
 import (
 	"bufio"
 	"github.com/spf13/cobra"
+	"io"
 	"os"
 )
 
@@ -95,6 +96,9 @@ func obscureFunc(cmd *cobra.Command, args []string) {
 	for {
 		text, err := reader.ReadString('\n')
 		if err != nil {
+			if err == io.EOF {
+				break
+			}
 			cmd.Println(err)
 			os.Exit(1)
 		}
