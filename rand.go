@@ -12,16 +12,18 @@ type RandomDevice interface {
 	RandMax(max int64) int64
 }
 
-type CryptoRand struct {}
+func getRand(max *big.Int) *big.Int {
+	i, _ := rand.Int(rand.Reader, max)
+	return i
+}
+
+type CryptoRand struct{}
 
 func (c CryptoRand) Rand() *big.Rat {
 	max := big.NewInt(math.MaxInt64)
-	out,_ := rand.Int(rand.Reader, max)
-	return big.NewRat(out.Int64(), max.Int64())
+	return big.NewRat(getRand(max).Int64(), max.Int64())
 }
 
 func (c CryptoRand) RandMax(max int64) int64 {
-	bigMax := big.NewInt(max)
-	out,_ := rand.Int(rand.Reader, bigMax)
-	return out.Int64()
+	return getRand(big.NewInt(max)).Int64()
 }
