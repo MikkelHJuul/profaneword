@@ -24,8 +24,8 @@ func (m MultiFormatter) Format(word string) string {
 	return word
 }
 
-type SarcasticFormatter struct{
-	Rand RandomDevice
+type SarcasticFormatter struct {
+	Rand      RandomDevice
 	Threshold *big.Rat
 }
 
@@ -53,41 +53,80 @@ func NewSarcasticFormatter(device RandomDevice, threshold *big.Rat) SarcasticFor
 		device = CryptoRand{}
 	}
 	return SarcasticFormatter{
-		Rand: device,
+		Rand:      device,
 		Threshold: threshold,
 	}
 }
 
-var l337Map = map[rune]rune {  //small subset of 1337 alphabet
-	'a': '4',
+var l337Map = map[rune]rune{ //small subset of 1337 alphabet
 	'A': '4',
-	'b': '8',
 	'B': '8',
-	'e': '3',
 	'E': '3',
-	'g': '6',
 	'G': '6',
-	'i': '1',
 	'I': '1',
-	'l': '1',
 	'L': '1',
-	'o': '0',
 	'O': '0',
-	's': '5',
 	'S': '5',
-	't': '7',
 	'T': '7',
-	'z': '2',
 	'Z': '2',
 }
 
-type L337Formatter struct {}
+type L337Formatter struct{}
 
 func (sf L337Formatter) Format(word string) string {
 	out := make([]rune, len(word))
 	for i, r := range word {
-		if leetVal, ok := l337Map[r]; ok {
+		rKey := unicode.ToUpper(r)
+		if leetVal, ok := l337Map[rKey]; ok {
 			out[i] = leetVal
+		} else {
+			out[i] = r
+		}
+	}
+	return string(out)
+}
+
+//curated list values from https://da.wikipedia.org/wiki/Leetspeak
+var uberl337Map = map[rune][][]rune{
+	'A': {{'4'}, {'/', '\\'}, {'@'}, {'/', '-', '\\'}},
+	'B': {{'8'}, {'1', '3'}, {'|', '3'}, {'!', '3'}},
+	'C': {{'['}, {'('}, {'<'}},
+	'D': {{')'}, {'[', ')'}},
+	'E': {{'3'}},
+	'F': {{'|', '='}, {'|', '#'}},
+	'G': {{'6'}, {'(', '_', '+'}},
+	'H': {{'#'}, {']', '-', '['}, {'|', '-', '|'}},
+	'I': {{'1'}, {'!'}, {'|'}},
+	'J': {{'_', '|'}},
+	'K': {{'|', '<'}},
+	'L': {{'1'}, {'|', '_'}, {'|'}},
+	'M': {{'|', 'v', '|'}, {'|', '\\', '/', '|'}},
+	'N': {{'|', '\\', '|'}, {'|', 'V'}},
+	'O': {{'0'}, {'(', ')'}},
+	'P': {{'|', '>'}},
+	'Q': {{'(', ')', '_'}},
+	'R': {{'2'}, {'1', '2'}, {'|', '?'}},
+	'S': {{'5'}, {'$'}, {'§'}, {'z'}, {'Z'}},
+	'T': {{'7'}, {'+'}},
+	'U': {{'(', '_', ')'}, {'|', '_', '|'}},
+	'V': {{'\\', '/'}},
+	'W': {{'\\', '/', '\\', '/'}, {'v', 'v'}, {'\'', '/', '/'}, {'\\', '\\', '\''}},
+	'X': {{'>', '<'}, {'}', '{'}},
+	'Y': {{'`', '/'}},
+	'Z': {{'2'}, {'~', '/', '_'}},
+}
+
+type UberL337Formatter struct{}
+
+func (_ UberL337Formatter) Format(word string) string {
+	out := make([]rune, len(word))
+	randDevice := CryptoRand{}
+	for i, r := range word {
+		rKey := unicode.ToUpper(r)
+		if leetVal, ok := uberl337Map[rKey]; ok {
+			randomIndex := randDevice.RandMax(int64(len(leetVal)) + 1)
+			leetChars := append(leetVal, []rune{r})[randomIndex]
+			out = append(out, leetChars...)
 		} else {
 			out[i] = r
 		}
