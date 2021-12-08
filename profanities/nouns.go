@@ -67,6 +67,7 @@ var nouns = [...]string{
 	"harem",
 	"hell",
 	"hellhole",
+	"hentai-addict",
 	"ho",
 	"hoe",
 	"honey-pot",
