@@ -2,7 +2,7 @@ package profanities
 
 import "github.com/MikkelHJuul/profaneword"
 
-type NounStringer struct {}
+type NounStringer struct{}
 
 func (_ NounStringer) String() string {
 	return GetNoun()
@@ -11,8 +11,8 @@ func (_ NounStringer) String() string {
 func GetNoun() string {
 	randDevice := profaneword.CryptoRand{}
 	rand := randDevice.RandMax(int64(len(nouns)))
-	return nouns[rand]}
-
+	return nouns[rand]
+}
 
 var nouns = [...]string{
 	"Sir Wank-a-Lot",
@@ -23,6 +23,8 @@ var nouns = [...]string{
 	"armpit",
 	"arsehole",
 	"bait",
+	"bandit",
+	"banshee",
 	"barf",
 	"beater",
 	"bellend",
@@ -45,12 +47,15 @@ var nouns = [...]string{
 	"donkey",
 	"dork",
 	"douchebag",
+	"dwarf",
+	"eel",
 	"ejaculate",
 	"fanatic",
 	"fatty",
 	"feet",
 	"fetish",
 	"flaming",
+	"flan",
 	"fly",
 	"funeral",
 	"fungi",
@@ -67,6 +72,7 @@ var nouns = [...]string{
 	"honey-pot",
 	"horse",
 	"idiot",
+	"ignoramus",
 	"imbecile",
 	"imp",
 	"indifferent",
@@ -91,6 +97,7 @@ var nouns = [...]string{
 	"no-one",
 	"nobody",
 	"nude",
+	"nudist",
 	"nutsack",
 	"offender",
 	"ogre",
@@ -102,12 +109,16 @@ var nouns = [...]string{
 	"phallus",
 	"pig",
 	"pirate",
+	"pretender",
 	"punch",
 	"punk",
 	"pussy",
 	"rapist",
+	"rat",
 	"rectum",
 	"retard",
+	"rodent",
+	"rubber duck",
 	"satan",
 	"scrotum",
 	"scumbag",
@@ -118,6 +129,7 @@ var nouns = [...]string{
 	"slapper",
 	"slut",
 	"snail",
+	"snake",
 	"sodomite",
 	"son-of-a-bitch",
 	"son-of-a-whore",
@@ -127,14 +139,21 @@ var nouns = [...]string{
 	"sucker",
 	"swinger",
 	"tard",
+	"temptress",
 	"terminator",
 	"thundercunt",
+	"timesink",
 	"towelhead",
 	"twat",
+	"vampire",
 	"vomit",
 	"waffle",
+	"wail",
+	"wannabe",
 	"weasel",
+	"weed",
 	"weirdo",
+	"whale",
 	"willy",
 	"witch",
 	"x",

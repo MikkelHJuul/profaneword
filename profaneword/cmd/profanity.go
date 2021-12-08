@@ -10,15 +10,15 @@ func GetWords(words int) string {
 	return getWords(words, funs)
 }
 
-func getWords(words int, wfuns [][]fmt.Stringer) string{
+func getWords(words int, wfuns [][]fmt.Stringer) string {
 	numFuns := len(funs)
 	var stringers []fmt.Stringer
-	for ; words > 0 ; words -= numFuns{
+	for ; words > 0; words -= numFuns {
 		idx := words
-		if words > numFuns{
+		if words > numFuns {
 			idx = numFuns
 		}
-		stringers = append(stringers, wfuns[idx - 1]...)
+		stringers = append(stringers, wfuns[idx-1]...)
 	}
 
 	var text strings.Builder
@@ -36,7 +36,6 @@ func getWords(words int, wfuns [][]fmt.Stringer) string{
 var funs = [][]fmt.Stringer{
 	{profanities.NounStringer{}},
 	{profanities.VerbStringer{}, profanities.NounStringer{}},
-	{profanities.VerbStringer{}, profanities.SwearStringer{}, profanities.NounStringer{}},
-	{profanities.VerbStringer{}, profanities.SwearStringer{}, profanities.VerbStringer{}, profanities.NounStringer{}},
-	{profanities.VerbStringer{}, profanities.NounStringer{}, profanities.SwearStringer{}, profanities.VerbStringer{}, profanities.NounStringer{}},
+	{profanities.VerbStringer{}, profanities.VerbStringer{}, profanities.NounStringer{}},
+	{profanities.VerbStringer{}, profanities.VerbStringer{}, profanities.VerbStringer{}, profanities.NounStringer{}},
 }
