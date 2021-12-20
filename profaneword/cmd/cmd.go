@@ -35,18 +35,18 @@ Additional help topics:{{range .Commands}}{{if .IsAdditionalHelpTopicCommand}}
   {{rpad .CommandPath .CommandPathPadding}} {{.Short}}{{end}}{{end}}{{end}}{{if .HasAvailableSubCommands}}
 
 Args[formatters]:
-    1337            output formatted as 1337-speak
-    uber1337        output formatted with an extended 1337 alphabet
-    fat             output some t3xt wifth fat fringers
-    fst             otput sme tet writen wit haste
-    SCREAM          OUTPUT IS UPPERCASE
-    whisper         output is lowercased
-    /s              sARcaSTiC OUtpUt
+  1337            output formatted as 1337-speak
+  uber1337        output formatted with an extended 1337 alphabet
+  fat             output some t3xt wifth fat fringers
+  fst             otput sme tet writen wit haste
+  SCREAM          OUTPUT IS UPPERCASE
+  whisper         output is lowercased
+  /s              sARcaSTiC OUtpUt
 	
-    randomly        the next formatter is applied only randomly (per word basis) threshold is 50:50
-    random          the next formatter is applied only randomly (per character basis) threshold is 50:50
-                    both "random" and "randomly" are chainable onto themselves, 
-                    though "randomly" must be before "random"
+  randomly        the next formatter is applied only randomly (per word basis) threshold is 50:50
+  random          the next formatter is applied only randomly (per character basis) threshold is 50:50
+                  both "random" and "randomly" are chainable onto themselves, 
+                  though "randomly" must be before "random"
 
 
 Use "{{.CommandPath}} [command] --help" for more information about a command.{{end}}
