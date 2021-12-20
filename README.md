@@ -134,10 +134,11 @@ which means for the general case there are `2000^(2)*2*21=168 mil` combinations.
 When is it no longer vulnerable?
 
 formatters: 
-- `whisper/SCREAM` reduces the combinations by 2 (if the cracker knows you are using the formatter). but `SCREAM` add 1 more combination of each word.
+- `whisper` reduces the combinations by 2 (if the cracker knows you are using the formatter).
+- `SCREAM` add 1 more combination of each word.
 - `/s` increase combinations by a lot (`2*` the length of the word) `whisper` and `SCREAM` are special (very rare) combinations of `/s`
 - `random/randomly` for `/s` it simply makes the uncommon possibilities a lot more common,
 - `fat` and `fst` both increase the combinations by a lot. Again `random/randomly` just changes the distribution of the possible outcomes.
-- `1337` adds one combination, `random` adds a lot of combinations. 
-- `uber1337` adds many combinations, `random` adds a lot of combinations onto those. 
+- `1337` adds one combination, `random 1337` adds a lot of combinations. 
+- `uber1337` adds many combinations, `random uber1337` adds a lot of combinations onto those. 
 - using `--no MISSPELL` reduces combinations significantly. Down to about 10 million combinations for `extensiveness=2` and no formatters.
