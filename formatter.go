@@ -1,135 +1,116 @@
 package profaneword
 
 import (
-	"math/big"
-	"unicode"
+	"regexp"
+	"strings"
 )
 
 type Formatter interface {
 	Format(string) string
 }
 
+type CharFormatter interface {
+	FormatRune(rune) []rune
+}
+
 type MultiFormatter struct {
-	formatters []Formatter
+	Formatters []Formatter
 }
 
 func (m *MultiFormatter) With(f Formatter) {
-	m.formatters = append(m.formatters, f)
+	if f != nil {
+		m.Formatters = append(m.Formatters, f)
+	}
 }
 
-func (m MultiFormatter) Format(word string) string {
-	for _, f := range m.formatters {
+func (m *MultiFormatter) Format(word string) string {
+	for _, f := range m.Formatters {
 		word = f.Format(word)
 	}
 	return word
 }
 
-type SarcasticFormatter struct {
-	Rand      RandomDevice
-	Threshold *big.Rat
+type UnitFormatter struct{}
+
+var _ Formatter = UnitFormatter{}
+
+func (u UnitFormatter) Format(words string) string {
+	return words
 }
 
-func (sf SarcasticFormatter) Format(word string) string {
+type CharFormatterDelegatingFormatter struct {
+	CharFormatter
+}
+
+func (c *CharFormatterDelegatingFormatter) Format(word string) string {
 	out := make([]rune, len(word))
-	for i, r := range word {
-		if sf.Rand.Rand().Cmp(sf.Threshold) > 0 {
-			if unicode.IsUpper(r) {
-				out[i] = unicode.ToLower(r)
-			} else {
-				out[i] = unicode.ToUpper(r)
-			}
-		} else {
-			out[i] = r
-		}
+	for _, r := range word {
+		out = append(out, c.FormatRune(r)...)
 	}
 	return string(out)
 }
 
-func NewSarcasticFormatter(device RandomDevice, threshold *big.Rat) SarcasticFormatter {
-	if threshold == nil {
-		threshold = big.NewRat(1, 2)
-	}
-	if device == nil { //pointer-nil??
-		device = CryptoRand{}
-	}
-	return SarcasticFormatter{
-		Rand:      device,
-		Threshold: threshold,
-	}
+type RandomlyFormattingFormatter struct {
+	thresholdRandom
+	Other Formatter
 }
 
-var l337Map = map[rune]rune{ //small subset of 1337 alphabet
-	'A': '4',
-	'B': '8',
-	'E': '3',
-	'G': '6',
-	'I': '1',
-	'L': '1',
-	'O': '0',
-	'S': '5',
-	'T': '7',
-	'Z': '2',
+var _ Formatter = &RandomlyFormattingFormatter{
+	thresholdRandom: thresholdRandom{},
+	Other:           nil,
 }
 
-type L337Formatter struct{}
-
-func (sf L337Formatter) Format(word string) string {
-	out := make([]rune, len(word))
-	for i, r := range word {
-		rKey := unicode.ToUpper(r)
-		if leetVal, ok := l337Map[rKey]; ok {
-			out[i] = leetVal
-		} else {
-			out[i] = r
-		}
+func (rff *RandomlyFormattingFormatter) Format(word string) string {
+	words := strings.Split(word, ` `)
+	ws := make([]string, len(words))
+	for i, word := range words {
+		ws[i] = rff.formatWord(word)
 	}
-	return string(out)
+	return strings.Join(ws, ` `)
 }
 
-//curated list values from https://da.wikipedia.org/wiki/Leetspeak
-var uberl337Map = map[rune][][]rune{
-	'A': {{'4'}, {'/', '\\'}, {'@'}, {'/', '-', '\\'}},
-	'B': {{'8'}, {'1', '3'}, {'|', '3'}, {'!', '3'}},
-	'C': {{'['}, {'('}, {'<'}},
-	'D': {{')'}, {'[', ')'}},
-	'E': {{'3'}},
-	'F': {{'|', '='}, {'|', '#'}},
-	'G': {{'6'}, {'(', '_', '+'}},
-	'H': {{'#'}, {']', '-', '['}, {'|', '-', '|'}},
-	'I': {{'1'}, {'!'}, {'|'}},
-	'J': {{'_', '|'}},
-	'K': {{'|', '<'}},
-	'L': {{'1'}, {'|', '_'}, {'|'}},
-	'M': {{'|', 'v', '|'}, {'|', '\\', '/', '|'}},
-	'N': {{'|', '\\', '|'}, {'|', 'V'}},
-	'O': {{'0'}, {'(', ')'}},
-	'P': {{'|', '>'}},
-	'Q': {{'(', ')', '_'}},
-	'R': {{'2'}, {'1', '2'}, {'|', '?'}},
-	'S': {{'5'}, {'$'}, {'§'}, {'z'}, {'Z'}},
-	'T': {{'7'}, {'+'}},
-	'U': {{'(', '_', ')'}, {'|', '_', '|'}},
-	'V': {{'\\', '/'}},
-	'W': {{'\\', '/', '\\', '/'}, {'v', 'v'}, {'\'', '/', '/'}, {'\\', '\\', '\''}},
-	'X': {{'>', '<'}, {'}', '{'}},
-	'Y': {{'`', '/'}},
-	'Z': {{'2'}, {'~', '/', '_'}},
-}
-
-type UberL337Formatter struct{}
-
-func (_ UberL337Formatter) Format(word string) string {
-	out := make([]rune, len(word))
-	randDevice := CryptoRand{}
-	for i, r := range word {
-		rKey := unicode.ToUpper(r)
-		if leetVal, ok := uberl337Map[rKey]; ok {
-			randomIndex := randDevice.RandMax(int64(len(leetVal)) + 1)
-			leetChars := append(leetVal, []rune{r})[randomIndex]
-			out = append(out, leetChars...)
-		} else {
-			out[i] = r
-		}
+func (rff *RandomlyFormattingFormatter) formatWord(word string) string {
+	if rff.Rand.Rand().Cmp(rff.Threshold) > 0 {
+		return rff.Other.Format(word)
 	}
-	return string(out)
+	return word
+}
+
+func NewRandomlyFormatter() *RandomlyFormattingFormatter {
+	return &RandomlyFormattingFormatter{thresholdRandom: newFiftyFifty()}
+}
+
+type TitleFormatter struct{}
+
+var _ Formatter = TitleFormatter{}
+
+func (t TitleFormatter) Format(word string) string {
+	return strings.Title(word)
+}
+
+func RandomTitleFormatter() Formatter {
+	randomFormatter := NewRandomlyFormatter()
+	randomFormatter.Other = TitleFormatter{}
+	return randomFormatter
+}
+
+var _ Formatter = &RandomlyFormattingFormatter{
+	thresholdRandom: thresholdRandom{},
+	Other:           nil,
+}
+
+type RegexReplacingFormatter struct {
+	PatternMatcher *regexp.Regexp
+	Replacement    string
+}
+
+func (rr *RegexReplacingFormatter) Format(word string) string {
+	return rr.PatternMatcher.ReplaceAllString(word, rr.Replacement)
+}
+
+func DelimiterFormatterWith(repl string) Formatter {
+	return &RegexReplacingFormatter{
+		regexp.MustCompile(` `),
+		repl,
+	}
 }
