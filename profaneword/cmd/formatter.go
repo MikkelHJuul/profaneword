@@ -12,7 +12,7 @@ const (
 	uberL337    formatter = "uber1337"
 	fatFingers  formatter = "fat"
 	fastFingers formatter = "fst"
-	SCREAM      formatter = "SCREAM"
+	scream      formatter = "SCREAM"
 	whisper     formatter = "whisper"
 	reverse     formatter = "esrever"
 	randomly    formatter = "randomly"
@@ -21,7 +21,7 @@ const (
 
 var formatters = []string{
 	string(l337), string(uberL337), string(sarcastic),
-	string(SCREAM), string(whisper), string(randomly),
+	string(scream), string(whisper), string(randomly),
 	string(random), string(fatFingers), string(fastFingers),
 	string(reverse),
 }
@@ -52,7 +52,7 @@ func getFormatter(args []string, i int) (int, profaneword.Formatter) {
 		return i, profaneword.NewFatFingerFormatter()
 	case fastFingers:
 		return i, profaneword.NewFastFingerFormatter()
-	case SCREAM:
+	case scream:
 		return i, &profaneword.CharFormatterDelegatingFormatter{CharFormatter: profaneword.UppercaseCharFormatter{}}
 	case whisper:
 		return i, &profaneword.CharFormatterDelegatingFormatter{CharFormatter: profaneword.LowercaseCharFormatter{}}
