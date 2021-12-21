@@ -5,7 +5,7 @@ profane password generator (<span style="color:red">vulnerable to brute force at
 install:
 
 ```bash
-go install github.com/MikkelHJuul/profaneword/profaneword@v0.2.3
+go install github.com/MikkelHJuul/profaneword/profaneword@v0.3.1
 ```
 play
 ```bash 
@@ -52,7 +52,10 @@ Infertiliry-Fucker! Haram
 ❯ profaneword random fst whisper
 badmoth'd - poopig
 
+❯ profaneword randomly esrever
+Tired noitavissap
 
+~
 ❯ profaneword -d "_?"
 Passivat'D_?Vs_?Hazile
 
@@ -97,6 +100,7 @@ Args[formatters]:
   uber1337        output formatted with an extended 1337 alphabet
   fat             output some t3xt wifth fat fringers
   fst             otput sme tet writen wit haste
+  esrever         desrever tuptuo, per word; this cannot be coupled with 'random', functionality of 'random' will be ignored
   SCREAM          OUTPUT IS UPPERCASE
   whisper         output is lowercased
   /s              sARcaSTiC OUtpUt
