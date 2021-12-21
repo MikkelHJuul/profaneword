@@ -154,7 +154,7 @@ func DelimiterFormatterWith(repl string) Formatter {
 type ReversingFormatter struct{}
 
 //Format reverses the input text
-func (_ *ReversingFormatter) Format(text string) string {
+func (_ ReversingFormatter) Format(text string) string {
 	l := len(text)
 	reversed := make([]rune, l)
 	for i, t := range text {
@@ -166,5 +166,5 @@ func (_ *ReversingFormatter) Format(text string) string {
 //NewWordReversingFormatter returns a ReversingFormatter that reverses each words in a group,
 //and not the entire text as one
 func NewWordReversingFormatter() Formatter {
-	return &PerWordFormattingFormatter{&ReversingFormatter{}}
+	return &PerWordFormattingFormatter{ReversingFormatter{}}
 }

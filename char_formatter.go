@@ -76,8 +76,10 @@ type L337CharFormatter struct {
 	uber1337 map[rune][]rune
 }
 
+var _ CharFormatter = L337CharFormatter{}
+
 //FormatRune returns the rune-slice given in the internal map, or returns the input value
-func (u *L337CharFormatter) FormatRune(r rune) []rune {
+func (u L337CharFormatter) FormatRune(r rune) []rune {
 	rKey := unicode.ToUpper(r)
 	if leetVal, ok := u.uber1337[rKey]; ok {
 		return leetVal
@@ -141,13 +143,15 @@ func getNeighbourgChars(r rune) string {
 	return string(r)
 }
 
-//FatFingerCharFormatter formats the rune by finding the neighboring characters (keyboard) and
-//returns a random set of characters from within that sequence. it may return the rune itself up to four times
+//FatFingerCharFormatter formats the text/rune as if it was types with fat fingers
 type FatFingerCharFormatter struct {
 	RandomDevice
 }
 
-//FormatRune returns the
+var _ CharFormatter = FatFingerCharFormatter{}
+
+//FormatRune returns the slice of runes by finding the neighboring characters (keyboard) and
+//returns a random set of characters from within that sequence. it may return the rune itself up to four times
 func (ff FatFingerCharFormatter) FormatRune(r rune) []rune {
 	if ff.Rand().Cmp(big.NewRat(1, 6)) < 0 {
 		var outRunes []rune
@@ -171,14 +175,19 @@ func (ff FatFingerCharFormatter) FormatRune(r rune) []rune {
 	return []rune{r}
 }
 
+//NewFatFingerFormatter wraps the FatFingerCharFormatter in a CharFormatterDelegatingFormatter to produce a Formatter
 func NewFatFingerFormatter() Formatter {
 	return &CharFormatterDelegatingFormatter{CharFormatter: FatFingerCharFormatter{CryptoRand{}}}
 }
 
+//FastFingerCharFormatter formats as if written with haste, skipping characters at random
 type FastFingerCharFormatter struct {
 	RandomDevice
 }
 
+var _ CharFormatter = FastFingerCharFormatter{}
+
+//FormatRune at a rate of 1/6 randomly skip a rune
 func (ff FastFingerCharFormatter) FormatRune(r rune) []rune {
 	if ff.Rand().Cmp(big.NewRat(1, 6)) < 0 {
 		return []rune{}
@@ -186,30 +195,37 @@ func (ff FastFingerCharFormatter) FormatRune(r rune) []rune {
 	return []rune{r}
 }
 
+//NewFastFingerFormatter returns an initiated FastFingerCharFormatter wrapped in a CharFormatterDelegatingFormatter to produce a Formatter
 func NewFastFingerFormatter() Formatter {
 	return &CharFormatterDelegatingFormatter{CharFormatter: FastFingerCharFormatter{CryptoRand{}}}
 }
 
+//UppercaseCharFormatter formats uppercase
 type UppercaseCharFormatter struct{}
 
 var _ CharFormatter = UppercaseCharFormatter{}
 
+//FormatRune uppercases the rune
 func (_ UppercaseCharFormatter) FormatRune(r rune) []rune {
 	return []rune{unicode.ToUpper(r)}
 }
 
+//LowercaseCharFormatter formats lowercase
 type LowercaseCharFormatter struct{}
 
 var _ CharFormatter = LowercaseCharFormatter{}
 
+//FormatRune the rune, but lowercase
 func (_ LowercaseCharFormatter) FormatRune(r rune) []rune {
 	return []rune{unicode.ToLower(r)}
 }
 
+//SwitchCaseCharFormatter switch the case
 type SwitchCaseCharFormatter struct{}
 
 var _ CharFormatter = SwitchCaseCharFormatter{}
 
+//FormatRune switches case of the rune
 func (_ SwitchCaseCharFormatter) FormatRune(r rune) []rune {
 	if unicode.IsUpper(r) {
 		return []rune{unicode.ToLower(r)}
@@ -218,6 +234,8 @@ func (_ SwitchCaseCharFormatter) FormatRune(r rune) []rune {
 	}
 }
 
+//NewSarcasticFormatter returns a CharFormatterDelegatingFormatter that wraps a
+//RandomlyFormattingCharFormatter that randomly delegates to SwitchCaseCharFormatter
 func NewSarcasticFormatter() Formatter {
 	randomFormatter := NewRandomFormatter()
 	randomFormatter.Other = &SwitchCaseCharFormatter{}
