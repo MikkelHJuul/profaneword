@@ -5,7 +5,7 @@ profane password generator (<span style="color:red">vulnerable to brute force at
 install:
 
 ```bash
-go install github.com/MikkelHJuul/profaneword/profaneword@v0.3.1
+go install github.com/MikkelHJuul/profaneword/profaneword@latest
 ```
 play
 ```bash 
