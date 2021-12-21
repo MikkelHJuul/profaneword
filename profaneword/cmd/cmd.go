@@ -83,7 +83,7 @@ if an attacker knows you use this generator. But hey, it's just for fun.`,
 		Use:   "version",
 		Short: "print the version and exit",
 		Run: func(cmd *cobra.Command, _ []string) {
-			cmd.Print("0.4.1")
+			cmd.Print("0.4.2")
 		},
 	}
 )
@@ -118,7 +118,7 @@ func profaneWords(cmd *cobra.Command, args []string) {
 	var disallowW = disallowedWords(cmd)
 	sentencer := profanities.NewProfanitySentencer(disallowW)
 	sentence := sentencer.GetSentence(numWords)
-	text := sentencer.Sentece(sentence)
+	text := sentencer.Sentence(sentence)
 	formatter := formatterOf(args, profaneword.RandomTitleFormatter(), profaneword.DelimiterFormatterWith(delim))
 	cmd.Println(formatter.Format(text))
 }
