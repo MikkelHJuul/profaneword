@@ -6,12 +6,6 @@ import (
 	"unicode"
 )
 
-var _ CharFormatter = UnitFormatter{}
-
-func (u UnitFormatter) FormatRune(r rune) []rune {
-	return []rune{r}
-}
-
 func NewRandomFormatter() *RandomlyFormattingCharFormatter {
 	return &RandomlyFormattingCharFormatter{
 		thresholdRandom: newFiftyFifty(),
