@@ -8,7 +8,7 @@ import (
 func TestRadixDatabase(t *testing.T) {
 	countMap := make(map[Word]int, 7)
 	for _, r := range radix {
-		wrds := r.GetWords([]Word{START, FILLER, END, EXCL, SPLIT, MISSPELL, POSITIVE})
+		wrds := r.getWordsOf([]Word{START, FILLER, END, EXCL, SPLIT, MISSPELL, POSITIVE}, NONE)
 		for k, v := range wrds {
 			countMap[k] = countMap[k] + len(v)
 		}

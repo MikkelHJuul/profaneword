@@ -6,8 +6,8 @@ type radixWordNode struct {
 	branches []*radixWordNode
 }
 
-func (n *radixWordNode) GetWords(words []Word) map[Word][]string {
-	return n.getWords(``, words, 0)
+func (n *radixWordNode) getWordsOf(words []Word, dissallowedWord Word) map[Word][]string {
+	return n.getWords(``, words, dissallowedWord)
 }
 
 func (n *radixWordNode) getWords(base string, words []Word, dissallowedWord Word) map[Word][]string {
@@ -29,6 +29,7 @@ func (n *radixWordNode) getWords(base string, words []Word, dissallowedWord Word
 	return mp
 }
 
+//GetOfSingle returns the Word's of a single Word type, and subtracts all words of the dissallowed type, Word
 func (n *radixWordNode) GetOfSingle(word, dissallowedWord Word) []string {
-	return n.getWords(``, []Word{word}, dissallowedWord)[word]
+	return n.getWordsOf([]Word{word}, dissallowedWord)[word]
 }

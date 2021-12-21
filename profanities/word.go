@@ -1,15 +1,15 @@
 package profanities
 
+//Word is a bitmask for marking Word type in this library
 type Word uint8
 
 const (
-	//NONE is the default: there is no word at this radixWordNode
-	NONE  Word = 0
+	//START FILLER END EXCL -- word placement wrt sentences
 	START Word = 1 << iota
 	FILLER
 	END
 	EXCL
-	//SPLIT reserved for future sentence-construction
+	//SPLIT reserved for future sentence-construction (splitting using words)
 	SPLIT
 	//MISSPELL is inherited in the tree; covers slang and miss-spelling
 	MISSPELL
@@ -17,5 +17,8 @@ const (
 	POSITIVE
 	//DEFAULT covers most normal-kinda words
 	DEFAULT = START | FILLER
-	EXCLS   = START | EXCL
+	//EXCLS just a concatenation, because they appear together often
+	EXCLS = START | EXCL
+	//NONE is the default: there is no word at this radixWordNode
+	NONE Word = 0
 )
