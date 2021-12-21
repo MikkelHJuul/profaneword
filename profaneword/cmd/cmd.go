@@ -41,6 +41,7 @@ Args[formatters]:
   fst             otput sme tet writen wit haste
   SCREAM          OUTPUT IS UPPERCASE
   whisper         output is lowercased
+  esrever         desrever tuptuo, per word; this cannot be coupled with 'random', functionality of 'random' will be ignored
   /s              sARcaSTiC OUtpUt
 	
   randomly        the next formatter is applied only randomly (per word basis) threshold is 50:50

@@ -14,6 +14,7 @@ const (
 	fastFingers formatter = "fst"
 	SCREAM      formatter = "SCREAM"
 	whisper     formatter = "whisper"
+	reverse     formatter = "esrever"
 	randomly    formatter = "randomly"
 	random      formatter = "random"
 )
@@ -22,6 +23,7 @@ var formatters = []string{
 	string(l337), string(uberL337), string(sarcastic),
 	string(SCREAM), string(whisper), string(randomly),
 	string(random), string(fatFingers), string(fastFingers),
+	string(reverse),
 }
 
 func formatterOf(args []string, formatters ...profaneword.Formatter) profaneword.Formatter {
@@ -54,12 +56,13 @@ func getFormatter(args []string, i int) (int, profaneword.Formatter) {
 		return i, &profaneword.CharFormatterDelegatingFormatter{CharFormatter: profaneword.UppercaseCharFormatter{}}
 	case whisper:
 		return i, &profaneword.CharFormatterDelegatingFormatter{CharFormatter: profaneword.LowercaseCharFormatter{}}
+	case reverse:
+		return i, profaneword.NewWordReversingFormatter()
 	case randomly:
 		i++
 		var wrappedFormatter profaneword.Formatter
 		i, wrappedFormatter = getFormatter(args, i)
-		randomlyFormatter := profaneword.NewRandomlyFormatter()
-		randomlyFormatter.Other = wrappedFormatter
+		randomlyFormatter := profaneword.NewRandomlyFormatter(wrappedFormatter)
 		return i, randomlyFormatter
 	case random:
 		i++
@@ -67,9 +70,8 @@ func getFormatter(args []string, i int) (int, profaneword.Formatter) {
 		i, wrappedFormatter = getFormatter(args, i)
 		charFormatter, ok := wrappedFormatter.(profaneword.CharFormatter)
 		if !ok {
-			//this should only happen with random randomly, which is already validated against...
-			//all other formatters are CharFormatters atm.
-			return i, profaneword.UnitFormatter{}
+			//this only happens with reversing formatter
+			return i, wrappedFormatter
 		}
 		randomFormatter := profaneword.NewRandomFormatter()
 		randomFormatter.Other = charFormatter
