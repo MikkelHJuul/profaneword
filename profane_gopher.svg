@@ -31,7 +31,7 @@
    guidetolerance="10"
    inkscape:pageopacity="0"
    inkscape:pageshadow="2"
-   inkscape:window-width="1853"
+   inkscape:window-width="927"
    inkscape:window-height="1025"
    id="namedview969"
    showgrid="false"
@@ -40,7 +40,7 @@
    inkscape:cy="93.520621"
    inkscape:window-x="67"
    inkscape:window-y="27"
-   inkscape:window-maximized="1"
+   inkscape:window-maximized="0"
    inkscape:current-layer="レイヤー_1" />
 <path
    d="m 744.94658,160.38634 c 0.4098,8.44865 8.84989,4.53944 12.67271,1.89827 3.62867,-2.50762 4.68964,-0.4232 5.00827,-5.37193 0.20861,-3.25266 0.58358,-6.50532 0.39908,-9.77084 -5.48727,-0.49725 -11.45565,0.80941 -15.95435,4.07762 -2.31719,1.68373 -6.66194,7.05779 -2.12571,9.16688"
@@ -203,7 +203,7 @@
 
 <text
    xml:space="preserve"
-   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:86.3793335px;line-height:1.25;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.15948343;"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:86.3793335px;line-height:1.25;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';letter-spacing:0px;word-spacing:0px;fill:#adbac7;fill-opacity:1;stroke:none;stroke-width:2.15948343;"
    x="57.058929"
    y="179.91051"
    id="text923"><tspan
@@ -211,5 +211,5 @@
      id="tspan921"
      x="57.058929"
      y="179.91051"
-     style="stroke-width:2.15948343;-inkscape-font-specification:'Segoe UI';font-family:'Segoe UI';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">profaneword</tspan></text>
+     style="stroke-width:2.15948343;-inkscape-font-specification:'Segoe UI';font-family:'Segoe UI';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;fill:#adbac7;fill-opacity:1;">profaneword</tspan></text>
 </svg>
