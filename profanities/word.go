@@ -3,7 +3,7 @@ package profanities
 type Word uint8
 
 const (
-	//NONE is the default: there is no word at this RadixWordNode
+	//NONE is the default: there is no word at this radixWordNode
 	NONE  Word = 0
 	START Word = 1 << iota
 	FILLER

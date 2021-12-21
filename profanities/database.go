@@ -1,12 +1,12 @@
 package profanities
 
-var edEndings = []*RadixWordNode{
+var edEndings = []*radixWordNode{
 	{val: `ed`, word: DEFAULT},
 	{val: `'d`, word: DEFAULT | MISSPELL},
 	{val: `d`, word: DEFAULT | MISSPELL},
 }
 
-var ingEndings = []*RadixWordNode{
+var ingEndings = []*radixWordNode{
 	{val: `ing`, word: DEFAULT},
 	{val: `in'`, word: DEFAULT | MISSPELL},
 	{val: `'n`, word: DEFAULT | MISSPELL},
@@ -16,70 +16,70 @@ var ingEndings = []*RadixWordNode{
 
 var ingEdEndings = append(ingEndings, edEndings...)
 
-var erEndings = []*RadixWordNode{
+var erEndings = []*radixWordNode{
 	{val: `er`, word: END | EXCL, branches: pluralRelate},
 	{val: `'r`, word: END | MISSPELL | EXCL, branches: pluralRelate},
 	{val: `r`, word: END | MISSPELL | EXCL, branches: pluralRelate},
 }
 
-var ingEdNode = &RadixWordNode{branches: ingEdEndings}
+var ingEdNode = &radixWordNode{branches: ingEdEndings}
 
 var ingEdErEndings = append(ingEdEndings, erEndings...)
 
-var ingNode = &RadixWordNode{branches: ingEndings}
-var erNode = &RadixWordNode{branches: erEndings}
-var edNode = &RadixWordNode{branches: edEndings}
-var lyEndings = []*RadixWordNode{
+var ingNode = &radixWordNode{branches: ingEndings}
+var erNode = &radixWordNode{branches: erEndings}
+var edNode = &radixWordNode{branches: edEndings}
+var lyEndings = []*radixWordNode{
 	{val: `ly`, word: DEFAULT},
 	{val: `li`, word: DEFAULT | MISSPELL},
 	{val: `lee`, word: DEFAULT | MISSPELL},
 	{val: `le`, word: DEFAULT | MISSPELL},
 }
-var lyEndingsNode = &RadixWordNode{branches: lyEndings}
+var lyEndingsNode = &radixWordNode{branches: lyEndings}
 
-var pluralNode = &RadixWordNode{val: `s`, word: END}
-var plural = []*RadixWordNode{pluralNode}
-var relateNode = &RadixWordNode{branches: []*RadixWordNode{{val: `'s`, word: START}}}
-var relate = []*RadixWordNode{relateNode}
-var pluralRelate = []*RadixWordNode{pluralNode, relateNode, {val: `s'`, word: START}}
-var pluralRelateNode = &RadixWordNode{branches: pluralRelate}
+var pluralNode = &radixWordNode{val: `s`, word: END}
+var plural = []*radixWordNode{pluralNode}
+var relateNode = &radixWordNode{branches: []*radixWordNode{{val: `'s`, word: START}}}
+var relate = []*radixWordNode{relateNode}
+var pluralRelate = []*radixWordNode{pluralNode, relateNode, {val: `s'`, word: START}}
+var pluralRelateNode = &radixWordNode{branches: pluralRelate}
 
-var fetishNode = &RadixWordNode{val: `fetish`, word: DEFAULT | END, branches: []*RadixWordNode{
+var fetishNode = &radixWordNode{val: `fetish`, word: DEFAULT | END, branches: []*radixWordNode{
 	{val: `ist`, word: END},
 	{val: `istic`, word: DEFAULT},
 }}
 
-var icallyEndingNode = &RadixWordNode{
-	val: `ic`, word: DEFAULT, branches: []*RadixWordNode{
+var icallyEndingNode = &radixWordNode{
+	val: `ic`, word: DEFAULT, branches: []*radixWordNode{
 		{val: `al`, word: DEFAULT, branches: lyEndings},
 	}}
-var icallyEnding = []*RadixWordNode{icallyEndingNode}
+var icallyEnding = []*radixWordNode{icallyEndingNode}
 
 //radix is a non-compacted radix-tree, containing all words
-var radix = [...]*RadixWordNode{
+var radix = [...]*radixWordNode{
 	{val: `Christ`, word: END},
 	{val: `Good lord`, word: END},
-	{val: `Jesus`, word: END, branches: []*RadixWordNode{
+	{val: `Jesus`, word: END, branches: []*radixWordNode{
 		{val: ` Christ`, word: END},
 	}},
 	{val: `Sir Wank-a-Lot`, word: END},
 	{val: `ad`, word: END},
-	{val: `addict`, word: END, branches: []*RadixWordNode{
+	{val: `addict`, word: END, branches: []*radixWordNode{
 		{val: `ive`, word: DEFAULT},
 	}},
-	{val: `adulter`, branches: []*RadixWordNode{
+	{val: `adulter`, branches: []*radixWordNode{
 		erNode,
 		{val: `at`, branches: edEndings}, //adulteration is an impurity in chemical compounds -- not really profane -- too obscure
 	}},
-	{val: `aggress`, branches: []*RadixWordNode{
+	{val: `aggress`, branches: []*radixWordNode{
 		{val: `ive`, word: DEFAULT, branches: lyEndings},
 		{val: `or`, word: END},
 	}},
 	{val: `alleged`, word: DEFAULT, branches: lyEndings},
-	{val: `anal`, word: DEFAULT | END, branches: []*RadixWordNode{
-		{val: `-`, branches: []*RadixWordNode{
+	{val: `anal`, word: DEFAULT | END, branches: []*radixWordNode{
+		{val: `-`, branches: []*radixWordNode{
 			lyEndingsNode,
-			{val: `secret`, word: END, branches: []*RadixWordNode{
+			{val: `secret`, word: END, branches: []*radixWordNode{
 				{val: `e`, word: END},
 				ingEdNode,
 			}},
@@ -88,81 +88,81 @@ var radix = [...]*RadixWordNode{
 	{val: `anus`, word: END},
 	{val: `armpit`, word: END, branches: pluralRelate},
 	{val: `arrogant`, word: DEFAULT, branches: lyEndings},
-	{val: `arse`, word: END, branches: []*RadixWordNode{
+	{val: `arse`, word: END, branches: []*radixWordNode{
 		{val: `hole`, word: DEFAULT | END | EXCL},
 	}},
-	{val: `ass`, word: DEFAULT | END, branches: []*RadixWordNode{
+	{val: `ass`, word: DEFAULT | END, branches: []*radixWordNode{
 		{val: `-hat`, word: END},
 		{val: `hat`, word: END},
 		{val: `hole`, word: DEFAULT | END | EXCL},
 		{val: `bang`, word: DEFAULT, branches: ingEdEndings},
 	}},
-	{val: `assassin`, word: END, branches: []*RadixWordNode{
+	{val: `assassin`, word: END, branches: []*radixWordNode{
 		pluralNode,
-		{val: `at`, branches: []*RadixWordNode{
+		{val: `at`, branches: []*radixWordNode{
 			{val: `e`, word: EXCLS},
 			ingEdNode,
 		}},
 	}},
-	{val: `auto`, branches: []*RadixWordNode{
+	{val: `auto`, branches: []*radixWordNode{
 		{val: `-erotic`, word: DEFAULT},
 		{val: `erotic`, word: DEFAULT},
 	}},
 
 	{val: `bait`, word: END, branches: ingEdEndings},
-	{val: `balls`, word: END | EXCLS, branches: []*RadixWordNode{
+	{val: `balls`, word: END | EXCLS, branches: []*radixWordNode{
 		{val: `ack`, word: END},
 	}},
 
 	{val: `bad`, word: DEFAULT},
 	{val: `bad-breath`, word: END, branches: ingEdEndings},
 	{val: `badmouth`, word: END, branches: ingEdEndings},
-	{val: `ban`, word: END | EXCL, branches: []*RadixWordNode{
+	{val: `ban`, word: END | EXCL, branches: []*radixWordNode{
 		{val: `n`, branches: ingEdEndings},
 	}},
 	{val: `bane`, word: END},
-	{val: `banana`, word: END, branches: []*RadixWordNode{
+	{val: `banana`, word: END, branches: []*radixWordNode{
 		{val: `s`, word: END | EXCL},
 	}},
 	{val: `bandit`, word: END, branches: pluralRelate},
 	{val: `banshee`, word: END, branches: pluralRelate},
-	{val: `barf`, word: END, branches: []*RadixWordNode{ingNode, erNode}},
+	{val: `barf`, word: END, branches: []*radixWordNode{ingNode, erNode}},
 	{val: `bastard`, word: END, branches: lyEndings},
 	{val: `beater`, word: END, branches: pluralRelate},
-	{val: `belittl`, branches: []*RadixWordNode{
+	{val: `belittl`, branches: []*radixWordNode{
 		{val: `e`, word: DEFAULT},
 		ingEdNode,
 	}},
 	{val: `bellend`, word: END},
 	{val: `benign`, word: DEFAULT},
 	{val: `benign`, word: DEFAULT},
-	{val: `beast`, word: END, branches: []*RadixWordNode{
+	{val: `beast`, word: END, branches: []*radixWordNode{
 		pluralNode,
 		lyEndingsNode,
 		{val: `ial`, word: DEFAULT, branches: lyEndings},
 	}},
 	{val: `big`, word: DEFAULT, branches: lyEndings},
-	{val: `bing`, word: DEFAULT, branches: []*RadixWordNode{
+	{val: `bing`, word: DEFAULT, branches: []*radixWordNode{
 		{val: `e`, word: DEFAULT},
 		ingNode,
 	}},
-	{val: `bitch`, word: END, branches: []*RadixWordNode{
+	{val: `bitch`, word: END, branches: []*radixWordNode{
 		{val: `y`, word: DEFAULT},
 		{val: `es`, word: END},
 		{val: `-slap`, word: EXCLS | END},
 	}},
-	{val: `bit`, branches: []*RadixWordNode{
+	{val: `bit`, branches: []*radixWordNode{
 		erNode,
 		{val: `t`, branches: ingEndings},
 		{val: `ten`, word: DEFAULT},
-		{val: `e`, word: EXCLS | END, branches: []*RadixWordNode{
+		{val: `e`, word: EXCLS | END, branches: []*radixWordNode{
 			{val: `mark`, word: END},
 		}},
 	}},
 	{val: `bland`, word: DEFAULT},
 	{val: `blunder`, word: END, branches: ingEdErEndings},
-	{val: `blood`, word: END, branches: []*RadixWordNode{
-		{val: `y`, word: DEFAULT | END, branches: []*RadixWordNode{
+	{val: `blood`, word: END, branches: []*radixWordNode{
+		{val: `y`, word: DEFAULT | END, branches: []*radixWordNode{
 			{val: ` hell`, word: DEFAULT | EXCL},
 		}},
 		{val: `i`, branches: edEndings},
@@ -170,7 +170,7 @@ var radix = [...]*RadixWordNode{
 	{val: `bollox`, word: DEFAULT | END},
 	{val: `boner`, word: END | EXCL, branches: pluralRelate},
 	{val: `boob`, word: END, branches: plural},
-	{val: `bor`, branches: []*RadixWordNode{
+	{val: `bor`, branches: []*radixWordNode{
 		ingEdNode,
 		{val: `e`, word: END},
 		{val: `esome`, word: DEFAULT},
@@ -178,49 +178,49 @@ var radix = [...]*RadixWordNode{
 	}},
 	{val: `boss`, word: END, branches: ingEdEndings},
 	{val: `breast`, word: END, branches: plural},
-	{val: `breast-hugg`, branches: []*RadixWordNode{
+	{val: `breast-hugg`, branches: []*radixWordNode{
 		ingNode, erNode,
 	}},
-	{val: `brutal`, word: DEFAULT | EXCL, branches: []*RadixWordNode{
+	{val: `brutal`, word: DEFAULT | EXCL, branches: []*radixWordNode{
 		lyEndingsNode,
 	}},
 	{val: `bugger`, word: END | EXCL},
 	{val: `bumpkin`, word: END, branches: plural},
-	{val: `butt`, word: END, branches: []*RadixWordNode{
+	{val: `butt`, word: END, branches: []*radixWordNode{
 		{val: `hole`, word: END | EXCL},
 		{val: `ock`, word: END, branches: plural},
 		{val: `crack`, word: END, branches: plural},
 		{val: `-sex`, word: DEFAULT},
 	}},
 
-	{val: `cacophon`, branches: []*RadixWordNode{
+	{val: `cacophon`, branches: []*radixWordNode{
 		{val: `y`, word: DEFAULT},
 		{val: `etically`, word: DEFAULT},
 	}},
 	{val: `cake`, word: END},
 	{val: `callus`, word: END, branches: ingEdEndings},
-	{val: `cancer`, word: END | EXCL, branches: []*RadixWordNode{
+	{val: `cancer`, word: END | EXCL, branches: []*radixWordNode{
 		{val: `ous`, word: DEFAULT},
 	}},
 	{`catkiller`, END, plural},
 	{`cat-killer`, END, plural},
-	{val: `cheese-eat`, branches: []*RadixWordNode{
+	{val: `cheese-eat`, branches: []*radixWordNode{
 		ingNode, erNode,
 	}},
-	{val: `child`, word: END, branches: []*RadixWordNode{
+	{val: `child`, word: END, branches: []*radixWordNode{
 		{val: `ish`, word: DEFAULT},
 	}},
 	{val: `chipmunk`, word: END},
 	{val: `choad`, word: END | EXCL},
-	{val: `clamm`, branches: []*RadixWordNode{
+	{val: `clamm`, branches: []*radixWordNode{
 		{val: `y`, word: DEFAULT},
 		{val: `i`, branches: lyEndings},
 	}},
 	{val: `clown`, word: END},
-	{val: `clownhugg`, branches: []*RadixWordNode{
+	{val: `clownhugg`, branches: []*radixWordNode{
 		ingNode, erNode,
 	}},
-	{val: `cock`, word: END | EXCLS, branches: []*RadixWordNode{
+	{val: `cock`, word: END | EXCLS, branches: []*radixWordNode{
 		{val: `old`, word: DEFAULT | END | EXCL},
 	}},
 	{val: `cuck`, word: END | EXCLS | MISSPELL, branches: pluralRelate},
@@ -230,21 +230,21 @@ var radix = [...]*RadixWordNode{
 	{val: `colicky`, word: DEFAULT},
 	{val: `colorless`, word: DEFAULT},
 	{val: `colourless`, word: DEFAULT},
-	{val: `con`, word: END, branches: []*RadixWordNode{
+	{val: `con`, word: END, branches: []*radixWordNode{
 		{`-artist`, END, pluralRelate},
 	}},
 	{val: `contriv`, branches: edEndings},
-	{val: `copulat`, branches: []*RadixWordNode{
+	{val: `copulat`, branches: []*radixWordNode{
 		{val: `e`, word: DEFAULT | EXCL},
 		ingEdNode,
 	}},
 	{val: `covetous`, word: DEFAULT, branches: lyEndings},
-	{val: `crack`, word: END, branches: []*RadixWordNode{
+	{val: `crack`, word: END, branches: []*radixWordNode{
 		ingEdNode,
 		{val: `er`, word: END},
 	}},
 	{val: `crikey`, word: EXCLS},
-	{val: `crook`, word: END, branches: []*RadixWordNode{
+	{val: `crook`, word: END, branches: []*radixWordNode{
 		edNode, pluralRelateNode,
 	}},
 	{val: `cross`, word: DEFAULT},
@@ -258,32 +258,32 @@ var radix = [...]*RadixWordNode{
 	{val: `death`, word: END, branches: lyEndings},
 	{val: `debacle`, word: END},
 	{val: `decay`, word: END, branches: ingEdEndings},
-	{val: `defect`, word: END | EXCL, branches: []*RadixWordNode{
+	{val: `defect`, word: END | EXCL, branches: []*radixWordNode{
 		ingEdNode,
 		{val: `or`, word: END, branches: pluralRelate},
 	}},
-	{val: `demon`, word: END, branches: []*RadixWordNode{
+	{val: `demon`, word: END, branches: []*radixWordNode{
 		icallyEndingNode,
-		{val: `iz`, branches: []*RadixWordNode{
+		{val: `iz`, branches: []*radixWordNode{
 			{val: `ation`, word: DEFAULT},
 			ingEdNode,
 		}},
 	}},
-	{val: `den`, branches: []*RadixWordNode{
-		{val: `i`, branches: []*RadixWordNode{erNode, edNode}},
+	{val: `den`, branches: []*radixWordNode{
+		{val: `i`, branches: []*radixWordNode{erNode, edNode}},
 		{val: `y`, word: DEFAULT | EXCL},
 	}},
 	{val: `despicable`, word: DEFAULT},
 	{val: `despis`, branches: ingEdEndings},
 	{val: `destroy`, word: DEFAULT | EXCL, branches: ingEdErEndings},
-	{val: `dick`, word: END, branches: []*RadixWordNode{
+	{val: `dick`, word: END, branches: []*radixWordNode{
 		{val: `head`, word: END, branches: pluralRelate},
 		pluralRelateNode,
 	}},
 	{val: `dix`, word: END | MISSPELL},
 	{val: `dildo`, word: END, branches: plural},
-	{val: `dim`, word: DEFAULT, branches: []*RadixWordNode{
-		{val: `wit`, word: END, branches: []*RadixWordNode{
+	{val: `dim`, word: DEFAULT, branches: []*radixWordNode{
+		{val: `wit`, word: END, branches: []*radixWordNode{
 			pluralRelateNode,
 			{val: `t`, branches: edEndings},
 		}},
@@ -291,7 +291,7 @@ var radix = [...]*RadixWordNode{
 	{val: `dip-shit`, word: END | DEFAULT | EXCL},
 	{val: `dirty`, word: DEFAULT}, //branching
 	{val: `disregard`, word: EXCL, branches: ingEdEndings},
-	{val: `dissonan`, branches: []*RadixWordNode{
+	{val: `dissonan`, branches: []*radixWordNode{
 		{val: `t`, word: DEFAULT},
 		{val: `ce`, word: DEFAULT},
 	}},
@@ -300,37 +300,37 @@ var radix = [...]*RadixWordNode{
 	{val: `dong`, word: END, branches: plural},
 	{val: `dung`, word: END},
 	{val: `donkey`, word: END, branches: plural},
-	{val: `dork`, word: END, branches: []*RadixWordNode{
+	{val: `dork`, word: END, branches: []*radixWordNode{
 		pluralNode,
 		{val: `y`, word: DEFAULT},
 	}},
-	{val: `douche`, word: END, branches: []*RadixWordNode{
+	{val: `douche`, word: END, branches: []*radixWordNode{
 		pluralRelateNode,
 		{val: `-bag`, word: END, branches: pluralRelate},
 	}},
 	{val: `dread`, word: END | DEFAULT, branches: ingEdEndings},
 	{val: `drug-dealer`, word: END},
-	{val: `drug`, branches: []*RadixWordNode{
+	{val: `drug`, branches: []*radixWordNode{
 		pluralNode,
 		{val: `g`, branches: ingEdEndings},
 	}},
-	{val: `drunk`, word: DEFAULT, branches: []*RadixWordNode{
+	{val: `drunk`, word: DEFAULT, branches: []*radixWordNode{
 		{val: `en`, word: DEFAULT, branches: lyEndings},
 	}},
 	{val: `dull`, word: DEFAULT},
-	{val: `dwar`, branches: []*RadixWordNode{
+	{val: `dwar`, branches: []*radixWordNode{
 		{val: `f`, word: END, branches: ingEdEndings},
 		{val: `ves`, word: END, branches: relate},
 	}},
 
-	{val: `eat`, branches: []*RadixWordNode{
+	{val: `eat`, branches: []*radixWordNode{
 		{val: `en`, word: DEFAULT}, //more...
 	}},
-	{val: `ecstatic`, word: DEFAULT, branches: []*RadixWordNode{
+	{val: `ecstatic`, word: DEFAULT, branches: []*radixWordNode{
 		{val: `al`, word: DEFAULT, branches: lyEndings},
 	}},
 	{val: `eel`, word: END},
-	{val: `ejaculat`, branches: []*RadixWordNode{
+	{val: `ejaculat`, branches: []*radixWordNode{
 		{val: `e`, word: END},
 		ingEdNode, erNode,
 		{val: `ion`, word: END},
@@ -345,7 +345,7 @@ var radix = [...]*RadixWordNode{
 	{val: `exacerbat`, branches: ingEdErEndings},
 	{val: `extreme`, word: DEFAULT, branches: lyEndings},
 
-	{val: `fad`, word: END, branches: []*RadixWordNode{
+	{val: `fad`, word: END, branches: []*radixWordNode{
 		{val: `ed`, word: DEFAULT},
 		{val: `'d`, word: DEFAULT | MISSPELL},
 	}},
@@ -354,7 +354,7 @@ var radix = [...]*RadixWordNode{
 	{val: `fallen`, word: DEFAULT},
 	{val: `false`, word: DEFAULT},
 
-	{val: `fanatic`, word: DEFAULT | END, branches: []*RadixWordNode{
+	{val: `fanatic`, word: DEFAULT | END, branches: []*radixWordNode{
 		{val: `al`, word: DEFAULT, branches: lyEndings},
 	}},
 	{val: `fart`, word: END, branches: ingEndings},
@@ -364,12 +364,12 @@ var radix = [...]*RadixWordNode{
 	{val: `phat`, word: DEFAULT | END | MISSPELL | EXCL},
 	{val: `fee`, word: END, branches: plural},
 	{val: `feet`, word: END},
-	{val: `feet-`, branches: []*RadixWordNode{fetishNode}},
+	{val: `feet-`, branches: []*radixWordNode{fetishNode}},
 
 	{val: `feral`, word: DEFAULT},
 	{val: `fester`, word: DEFAULT | EXCL, branches: ingEdEndings},
 	fetishNode,
-	{val: `feist`, branches: []*RadixWordNode{
+	{val: `feist`, branches: []*radixWordNode{
 		{val: `y`, word: DEFAULT},
 		{val: `i`, branches: lyEndings},
 	}},
@@ -384,7 +384,7 @@ var radix = [...]*RadixWordNode{
 	{val: `flat`, word: DEFAULT, branches: lyEndings},
 	{val: `flat-earther`, word: END, branches: pluralRelate},
 	{val: `flatten`, word: DEFAULT, branches: ingEdEndings},
-	{val: `flatulen`, branches: []*RadixWordNode{
+	{val: `flatulen`, branches: []*radixWordNode{
 		{val: `t`, word: DEFAULT},
 		{val: `ce`, word: DEFAULT},
 	}},
@@ -408,7 +408,7 @@ var radix = [...]*RadixWordNode{
 	{val: `furious`, word: DEFAULT, branches: lyEndings},
 
 	{val: `gaucherie`, word: DEFAULT},
-	{val: `generic`, word: DEFAULT, branches: []*RadixWordNode{
+	{val: `generic`, word: DEFAULT, branches: []*radixWordNode{
 		{val: `al`, word: DEFAULT, branches: lyEndings},
 	}},
 	{val: `ginormous`, word: DEFAULT},
@@ -433,7 +433,7 @@ var radix = [...]*RadixWordNode{
 	{val: `harem`, word: END},
 	{val: `hat`, word: DEFAULT, branches: ingEdEndings},
 	{val: `hate`, word: DEFAULT},
-	{val: `hazard`, word: DEFAULT | EXCL, branches: []*RadixWordNode{
+	{val: `hazard`, word: DEFAULT | EXCL, branches: []*radixWordNode{
 		{val: `ous`, word: DEFAULT | EXCL},
 	}},
 	{val: `hazy`, word: DEFAULT},
@@ -476,7 +476,7 @@ var radix = [...]*RadixWordNode{
 	{val: `incorrect`, word: DEFAULT},
 	{val: `indifferent`, word: DEFAULT, branches: lyEndings},
 
-	{val: `infest`, word: DEFAULT, branches: []*RadixWordNode{
+	{val: `infest`, word: DEFAULT, branches: []*radixWordNode{
 		ingEdNode,
 		{val: `ation`, word: DEFAULT},
 	}},
@@ -517,18 +517,18 @@ var radix = [...]*RadixWordNode{
 	{val: `low`, word: DEFAULT, branches: lyEndings},
 	{val: `lowsy`, word: DEFAULT},
 	{val: `lowsi`, branches: lyEndings},
-	{val: `lust`, word: END | EXCL, branches: []*RadixWordNode{
+	{val: `lust`, word: END | EXCL, branches: []*radixWordNode{
 		{val: `il`, branches: lyEndings},
 		{val: `y`, word: DEFAULT},
 		{val: `ful`, word: DEFAULT, branches: lyEndings},
 	}},
 	{val: `magnificent`, word: DEFAULT | POSITIVE},
-	{val: `malform`, word: EXCL, branches: []*RadixWordNode{
+	{val: `malform`, word: EXCL, branches: []*radixWordNode{
 		edNode,
 		{val: `ation`, word: DEFAULT},
 	}},
 	{val: `malfunction`, word: DEFAULT | END, branches: ingEdEndings},
-	{val: `malic`, branches: []*RadixWordNode{
+	{val: `malic`, branches: []*radixWordNode{
 		{val: `e`, word: DEFAULT | EXCL},
 		ingNode,
 		{val: `ious`, word: DEFAULT, branches: lyEndings},
@@ -537,11 +537,11 @@ var radix = [...]*RadixWordNode{
 	{val: `malplac`, branches: ingEdEndings},
 	{val: `manure`, word: END},
 	{val: `master`, word: DEFAULT, branches: lyEndings},
-	{val: `menac`, branches: []*RadixWordNode{
+	{val: `menac`, branches: []*radixWordNode{
 		{val: `e`, word: DEFAULT | EXCL},
 		ingNode,
 	}},
-	{val: `mess`, word: END, branches: []*RadixWordNode{
+	{val: `mess`, word: END, branches: []*radixWordNode{
 		{val: `y`, word: DEFAULT},
 	}},
 	{val: `mischief`, word: DEFAULT},
@@ -556,7 +556,7 @@ var radix = [...]*RadixWordNode{
 	{val: `motherfuck`, branches: ingEndings},
 	{val: `mouse`, word: END},
 	{val: `muff`, word: END},
-	{val: `muff-div`, branches: []*RadixWordNode{ingNode, erNode}},
+	{val: `muff-div`, branches: []*radixWordNode{ingNode, erNode}},
 	{val: `munch`, word: DEFAULT, branches: ingEndings},
 	{val: `my-lord`, word: DEFAULT},
 
@@ -586,7 +586,7 @@ var radix = [...]*RadixWordNode{
 	{val: `orgasm`, word: END, branches: icallyEnding},
 	{val: `overlook`, branches: edEndings},
 
-	{val: `pain`, word: END, branches: []*RadixWordNode{
+	{val: `pain`, word: END, branches: []*radixWordNode{
 		{val: `ful`, word: DEFAULT, branches: lyEndings},
 		edNode,
 	}},
@@ -594,8 +594,8 @@ var radix = [...]*RadixWordNode{
 	{val: `pecker`, word: END},
 	{val: `peepee`, word: END},
 	{val: `pee-pee`, word: END},
-	{val: `peep`, word: DEFAULT | EXCL, branches: []*RadixWordNode{ingNode, erNode}},
-	{val: `penis`, word: END, branches: []*RadixWordNode{
+	{val: `peep`, word: DEFAULT | EXCL, branches: []*radixWordNode{ingNode, erNode}},
+	{val: `penis`, word: END, branches: []*radixWordNode{
 		{val: `'`, word: END},
 	}},
 	{val: `peter`, word: END},
@@ -604,21 +604,21 @@ var radix = [...]*RadixWordNode{
 	{val: `pious`, word: DEFAULT},
 	{val: `pirate`, word: END, branches: plural},
 	{val: `pissed-off`, word: DEFAULT},
-	{val: `pit`, word: END, branches: []*RadixWordNode{
+	{val: `pit`, word: END, branches: []*radixWordNode{
 		{val: `iful`, word: DEFAULT, branches: lyEndings},
 		{`y`, DEFAULT, ingEndings},
 		{val: `y`, word: EXCLS},
 	}},
 	{val: `plump`, word: DEFAULT},
-	{val: `poach`, word: DEFAULT, branches: []*RadixWordNode{
+	{val: `poach`, word: DEFAULT, branches: []*radixWordNode{
 		erNode, ingNode,
 	}},
 	{val: `poignant`, word: DEFAULT, branches: lyEndings},
-	{val: `point`, branches: []*RadixWordNode{
+	{val: `point`, branches: []*radixWordNode{
 		{val: `y`, word: END | DEFAULT},
 		{val: `less`, word: DEFAULT, branches: lyEndings},
 	}},
-	{val: `poison`, word: DEFAULT | END | EXCL, branches: []*RadixWordNode{
+	{val: `poison`, word: DEFAULT | END | EXCL, branches: []*radixWordNode{
 		{val: `ous`, word: DEFAULT},
 	}},
 	{val: `prick`, word: END},
@@ -633,7 +633,7 @@ var radix = [...]*RadixWordNode{
 	{val: `putrid`, word: DEFAULT},
 
 	{val: `ragg`, branches: edEndings},
-	{val: `rap`, word: END, branches: []*RadixWordNode{
+	{val: `rap`, word: END, branches: []*radixWordNode{
 		ingEdNode, erNode,
 		{val: `e`, word: END | EXCL},
 		{val: `ist`, word: END},
@@ -645,7 +645,7 @@ var radix = [...]*RadixWordNode{
 	{val: `recti`, word: END | MISSPELL},
 	{val: `redneck`, word: END, branches: plural},
 	{val: `retard`, word: END, branches: plural},
-	{val: `rim-job`, word: END, branches: []*RadixWordNode{
+	{val: `rim-job`, word: END, branches: []*radixWordNode{
 		{val: `b`, word: MISSPELL, branches: ingEdEndings},
 	}},
 	{val: `rodent`, word: END},
@@ -667,7 +667,7 @@ var radix = [...]*RadixWordNode{
 	{val: `sexual`, word: DEFAULT, branches: lyEndings},
 	{val: `shite`, word: DEFAULT | END | MISSPELL | EXCL},
 	{val: `shit`, word: DEFAULT | END},
-	{val: `shitt`, branches: []*RadixWordNode{ingNode, erNode}},
+	{val: `shitt`, branches: []*radixWordNode{ingNode, erNode}},
 	{val: `short`, word: DEFAULT},
 	{val: `shriek`, word: DEFAULT, branches: ingEndings},
 	{val: `shrivell`, branches: edEndings},
@@ -684,7 +684,7 @@ var radix = [...]*RadixWordNode{
 	{val: `skunk`, word: END, branches: plural},
 	{val: `slimy`, word: DEFAULT},
 	{val: `slimi`, branches: lyEndings},
-	{val: `slut`, word: DEFAULT | END, branches: []*RadixWordNode{
+	{val: `slut`, word: DEFAULT | END, branches: []*radixWordNode{
 		{val: `ty`, word: DEFAULT},
 		{val: `ti`, branches: lyEndings},
 	}},
@@ -694,9 +694,9 @@ var radix = [...]*RadixWordNode{
 	{val: `snake`, word: END},
 	{val: `snak`, branches: ingEndings},
 	{val: `sod-off`, word: EXCLS},
-	{val: `sodom`, word: END, branches: []*RadixWordNode{
+	{val: `sodom`, word: END, branches: []*radixWordNode{
 		{val: `ite`, word: END, branches: pluralRelate},
-		{val: `iz`, branches: []*RadixWordNode{
+		{val: `iz`, branches: []*radixWordNode{
 			{val: `e`, word: EXCLS},
 			{val: `ation`, word: DEFAULT},
 			ingEdNode,
@@ -708,7 +708,7 @@ var radix = [...]*RadixWordNode{
 	{val: `son-of-a`, word: DEFAULT | SPLIT},
 	{val: `son-of-a-bitch`, word: END},
 	{val: `son-of-a-whore`, word: END},
-	{val: `sorrow`, word: DEFAULT | END, branches: []*RadixWordNode{
+	{val: `sorrow`, word: DEFAULT | END, branches: []*radixWordNode{
 		{val: `ful`, word: DEFAULT, branches: lyEndings},
 	}},
 	{val: `sour`, word: DEFAULT},
@@ -719,12 +719,12 @@ var radix = [...]*RadixWordNode{
 	{val: `spooky`, word: DEFAULT},
 	{val: `spunk`, word: END},
 	{val: `square`, word: DEFAULT},
-	{val: `ston`, branches: []*RadixWordNode{erNode, edNode}},
+	{val: `ston`, branches: []*radixWordNode{erNode, edNode}},
 	{val: `stop`, word: END | EXCL},
 	{val: `stupid`, word: DEFAULT, branches: lyEndings},
 	{val: `succubus`, word: END},
 	{val: `suck`, word: DEFAULT, branches: ingEdErEndings},
-	{val: `suicid`, branches: []*RadixWordNode{
+	{val: `suicid`, branches: []*radixWordNode{
 		{val: `e`, word: END},
 		{val: `al`, word: DEFAULT, branches: lyEndings},
 	}},
@@ -736,12 +736,12 @@ var radix = [...]*RadixWordNode{
 	{val: `tard`, word: END},
 	{val: `tea-bagg`, branches: ingEdEndings},
 
-	{val: `tedious`, word: END, branches: []*RadixWordNode{
+	{val: `tedious`, word: END, branches: []*radixWordNode{
 		{val: `ness`, word: DEFAULT},
 	}},
 	{val: `temptress`, word: END},
 	{val: `terminator`, word: END},
-	{val: `terror`, word: DEFAULT | END, branches: []*RadixWordNode{
+	{val: `terror`, word: DEFAULT | END, branches: []*radixWordNode{
 		ingEdNode,
 		{val: `ist`, word: END, branches: pluralRelate},
 	}},
@@ -758,7 +758,7 @@ var radix = [...]*RadixWordNode{
 	{val: `towelhead`, word: END},
 	{val: `toxic`, word: END},
 	{val: `tox`, word: END, branches: icallyEnding},
-	{val: `trash`, word: END, branches: []*RadixWordNode{
+	{val: `trash`, word: END, branches: []*radixWordNode{
 		{val: `y`, word: DEFAULT},
 		{val: `i`, branches: lyEndings},
 	}},
@@ -768,7 +768,7 @@ var radix = [...]*RadixWordNode{
 	{val: `ugly`, word: DEFAULT | EXCL},
 	{val: `un-hung`, word: DEFAULT},
 	{val: `uncalled-for`, word: DEFAULT},
-	{val: `uncann`, branches: []*RadixWordNode{
+	{val: `uncann`, branches: []*radixWordNode{
 		{val: `y`, word: DEFAULT},
 		{val: `i`, branches: lyEndings},
 	}},
@@ -797,8 +797,8 @@ var radix = [...]*RadixWordNode{
 	{val: `weaken`, word: DEFAULT, branches: edEndings},
 	{val: `weakish`, word: DEFAULT | MISSPELL},
 	{val: `weasel`, word: END},
-	{val: `weapon`, word: END, branches: []*RadixWordNode{
-		{val: `iz`, branches: []*RadixWordNode{
+	{val: `weapon`, word: END, branches: []*radixWordNode{
+		{val: `iz`, branches: []*radixWordNode{
 			{val: `ation`, word: DEFAULT},
 			ingEdNode,
 		}},
@@ -822,7 +822,7 @@ var radix = [...]*RadixWordNode{
 	{val: `yeast`, word: END},
 	{val: `yokel`, word: END, branches: pluralRelate},
 
-	{val: `zoophil`, branches: []*RadixWordNode{
+	{val: `zoophil`, branches: []*radixWordNode{
 		icallyEndingNode,
 		{val: `e`, word: END},
 	}},
@@ -830,7 +830,7 @@ var radix = [...]*RadixWordNode{
 	{val: `murder`, word: END | EXCL, branches: ingEdErEndings},
 	{val: `offend`, word: EXCLS, branches: ingEdErEndings},
 	{val: `piss`, word: DEFAULT | EXCL, branches: ingEdErEndings},
-	{val: `wank`, word: EXCLS, branches: []*RadixWordNode{ingNode, erNode}},
+	{val: `wank`, word: EXCLS, branches: []*radixWordNode{ingNode, erNode}},
 	{val: `wither`, word: DEFAULT, branches: ingEdEndings},
 	{val: `titty-fuck`, word: DEFAULT, branches: ingEdEndings},
 	{val: `confus`, branches: ingEdEndings},
@@ -918,7 +918,7 @@ var radix = [...]*RadixWordNode{
 	{val: `asphyxiation`, word: DEFAULT},
 	{val: `sticky`, word: DEFAULT},
 	{val: `nauseat`, branches: ingEdEndings},
-	{val: `devil`, word: END, branches: []*RadixWordNode{
+	{val: `devil`, word: END, branches: []*radixWordNode{
 		{val: `ish`, word: DEFAULT, branches: lyEndings},
 		{val: `'sh`, word: DEFAULT | MISSPELL, branches: lyEndings},
 	}},
@@ -936,11 +936,11 @@ var radix = [...]*RadixWordNode{
 	{val: `swine`, word: END},
 	{val: `monotonous`, word: DEFAULT, branches: lyEndings},
 	{val: `draconian`, word: DEFAULT},
-	{val: `thrill-seek`, branches: []*RadixWordNode{ingNode, erNode}},
-	{val: `jay-walk`, branches: []*RadixWordNode{ingNode, erNode}},
+	{val: `thrill-seek`, branches: []*radixWordNode{ingNode, erNode}},
+	{val: `jay-walk`, branches: []*radixWordNode{ingNode, erNode}},
 	{val: `worm`, word: END | EXCL, branches: plural},
-	{val: `flesh-eat`, branches: []*RadixWordNode{erNode, ingNode}},
-	{val: `pollut`, branches: []*RadixWordNode{
+	{val: `flesh-eat`, branches: []*radixWordNode{erNode, ingNode}},
+	{val: `pollut`, branches: []*radixWordNode{
 		ingNode, erNode, edNode,
 	}},
 	{val: `pollutant`, word: END, branches: plural},
@@ -949,7 +949,7 @@ var radix = [...]*RadixWordNode{
 	{val: `louse`, word: END | EXCL},
 	{val: `lice`, word: END | EXCL},
 	{val: `squander`, word: DEFAULT, branches: ingEdEndings},
-	{val: `scapegoat`, word: END, branches: []*RadixWordNode{ingNode, pluralNode}},
+	{val: `scapegoat`, word: END, branches: []*radixWordNode{ingNode, pluralNode}},
 	{val: `fell`, word: DEFAULT},
 	{val: `nuisance`, word: DEFAULT},
 	{val: `overt`, word: DEFAULT, branches: lyEndings},
@@ -960,14 +960,14 @@ var radix = [...]*RadixWordNode{
 	{val: `heartache`, word: END},
 	{val: `ego`, word: END | EXCL},
 	{val: `ego-centered`, word: DEFAULT},
-	{val: `egoist`, word: END, branches: []*RadixWordNode{icallyEndingNode, pluralRelateNode}},
+	{val: `egoist`, word: END, branches: []*radixWordNode{icallyEndingNode, pluralRelateNode}},
 	{val: `mold`, word: END},
 	{val: `moldy`, word: DEFAULT},
 	{val: `double-down`, word: END | EXCL},
 	{val: `tasteless`, word: DEFAULT, branches: lyEndings},
 	{val: `crime`, word: END},
 	{val: `frankenstein`, word: END},
-	{val: `criminal`, word: END, branches: []*RadixWordNode{lyEndingsNode, pluralRelateNode}},
+	{val: `criminal`, word: END, branches: []*radixWordNode{lyEndingsNode, pluralRelateNode}},
 	{val: `crummy`, word: DEFAULT},
 	{val: `crummi`, branches: lyEndings},
 	{val: `unfortunate`, word: DEFAULT, branches: lyEndings},
@@ -1007,11 +1007,11 @@ var radix = [...]*RadixWordNode{
 	{val: `tarnish`, word: DEFAULT, branches: ingEdErEndings},
 	{val: `darn`, word: DEFAULT | EXCL},
 	{val: `distress`, word: END, branches: ingEdEndings},
-	{val: `petrifi`, branches: []*RadixWordNode{edNode, erNode}},
+	{val: `petrifi`, branches: []*radixWordNode{edNode, erNode}},
 	{val: `petrify`, word: EXCL, branches: ingEndings},
 	{val: `harrow`, word: EXCL | END, branches: ingEdEndings},
 	{val: `quit`, word: EXCL},
-	{val: `quitt`, branches: []*RadixWordNode{ingNode, erNode}},
+	{val: `quitt`, branches: []*radixWordNode{ingNode, erNode}},
 	{val: `parasite`, word: END | EXCL, branches: pluralRelate},
 	{val: `parasit`, branches: icallyEnding},
 	{val: `mistake`, word: END},
@@ -1066,7 +1066,7 @@ var radix = [...]*RadixWordNode{
 	{val: `strangl`, branches: ingEdErEndings},
 	{val: `pamper`, word: DEFAULT, branches: ingEdEndings},
 	{val: `brat`, word: END | EXCL},
-	{val: `drunk-driv`, branches: []*RadixWordNode{erNode, ingNode}},
+	{val: `drunk-driv`, branches: []*radixWordNode{erNode, ingNode}},
 	{val: `dui`, word: END},
 	{val: `drunkard`, word: END},
 	{val: `recluse`, word: END},
@@ -1080,7 +1080,7 @@ var radix = [...]*RadixWordNode{
 	{val: `exhaust`, word: END, branches: ingEdEndings},
 	{val: `exhaustion`, word: END | EXCL},
 	{val: `lost`, word: DEFAULT | EXCL},
-	{val: `loos`, branches: []*RadixWordNode{erNode, ingNode}},
+	{val: `loos`, branches: []*radixWordNode{erNode, ingNode}},
 	{val: `conced`, branches: ingEdEndings},
 	{val: `concede`, word: EXCL},
 	{val: `surrender`, word: END | EXCL, branches: ingEdErEndings},

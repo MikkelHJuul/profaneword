@@ -1,16 +1,16 @@
 package profanities
 
-type RadixWordNode struct {
+type radixWordNode struct {
 	val      string
 	word     Word
-	branches []*RadixWordNode
+	branches []*radixWordNode
 }
 
-func (n *RadixWordNode) GetWords(words []Word) map[Word][]string {
+func (n *radixWordNode) GetWords(words []Word) map[Word][]string {
 	return n.getWords(``, words, 0)
 }
 
-func (n *RadixWordNode) getWords(base string, words []Word, dissallowedWord Word) map[Word][]string {
+func (n *radixWordNode) getWords(base string, words []Word, dissallowedWord Word) map[Word][]string {
 	if n.word&dissallowedWord != 0 {
 		return nil
 	}
@@ -29,6 +29,6 @@ func (n *RadixWordNode) getWords(base string, words []Word, dissallowedWord Word
 	return mp
 }
 
-func (n *RadixWordNode) GetOfSingle(word, dissallowedWord Word) []string {
+func (n *radixWordNode) GetOfSingle(word, dissallowedWord Word) []string {
 	return n.getWords(``, []Word{word}, dissallowedWord)[word]
 }
