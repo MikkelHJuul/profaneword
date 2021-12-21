@@ -6,17 +6,20 @@ import (
 	"unicode"
 )
 
+//NewRandomFormatter is a Returns a RandomlyFormattingCharFormatter that delegates to another CharFormatter at a rate of 50%
 func NewRandomFormatter() *RandomlyFormattingCharFormatter {
 	return &RandomlyFormattingCharFormatter{
 		thresholdRandom: newFiftyFifty(),
 	}
 }
 
+//RandomlyFormattingCharFormatter is a CharFormatter that delegates randomly to the embedded CharFormatter: Other
 type RandomlyFormattingCharFormatter struct {
 	thresholdRandom
 	Other CharFormatter
 }
 
+//FormatRune formats a single rune or not given the Random with threshold
 func (rff *RandomlyFormattingCharFormatter) FormatRune(r rune) []rune {
 	if rff.Rand.Rand().Cmp(rff.Threshold) > 0 {
 		return rff.Other.FormatRune(r)
@@ -67,10 +70,13 @@ var uberl337Map = map[rune][][]rune{
 	'Z': {{'2'}, {'~', '/', '_'}},
 }
 
+//L337CharFormatter is a CharFormatter that formats by replacing
+//the given rune by a slice if runes as stated in the internal map
 type L337CharFormatter struct {
 	uber1337 map[rune][]rune
 }
 
+//FormatRune returns the rune-slice given in the internal map, or returns the input value
 func (u *L337CharFormatter) FormatRune(r rune) []rune {
 	rKey := unicode.ToUpper(r)
 	if leetVal, ok := u.uber1337[rKey]; ok {
@@ -79,6 +85,7 @@ func (u *L337CharFormatter) FormatRune(r rune) []rune {
 	return []rune{r}
 }
 
+//Uber1337Formatter returns an initiated randomly chosen L337CharFormatter with the special uber1337-map
 func Uber1337Formatter() Formatter {
 	uber133Map := buildRandomMap(uberl337Map)
 	return &CharFormatterDelegatingFormatter{
@@ -98,6 +105,7 @@ func buildRandomMap(m map[rune][][]rune) map[rune][]rune {
 	return randomMap
 }
 
+//L337Formatter returns a L337CharFormatter with a predefined mapping, the l337map
 func L337Formatter() Formatter {
 	return &CharFormatterDelegatingFormatter{
 		&L337CharFormatter{
@@ -133,10 +141,13 @@ func getNeighbourgChars(r rune) string {
 	return string(r)
 }
 
+//FatFingerCharFormatter formats the rune by finding the neighboring characters (keyboard) and
+//returns a random set of characters from within that sequence. it may return the rune itself up to four times
 type FatFingerCharFormatter struct {
 	RandomDevice
 }
 
+//FormatRune returns the
 func (ff FatFingerCharFormatter) FormatRune(r rune) []rune {
 	if ff.Rand().Cmp(big.NewRat(1, 6)) < 0 {
 		var outRunes []rune
