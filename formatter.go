@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+//Formatter is a formatter, that formats the entire input text(string) and outputs the formatted text
 type Formatter interface {
 	Format(string) string
 }
@@ -60,24 +61,30 @@ var _ Formatter = &RandomlyFormattingFormatter{
 	Other:           nil,
 }
 
-func (rff *RandomlyFormattingFormatter) Format(word string) string {
+type PerWordFormattingFormatter struct {
+	Other Formatter
+}
+
+func (rff *PerWordFormattingFormatter) Format(word string) string {
 	words := strings.Split(word, ` `)
 	ws := make([]string, len(words))
 	for i, word := range words {
-		ws[i] = rff.formatWord(word)
+		ws[i] = rff.Other.Format(word)
 	}
 	return strings.Join(ws, ` `)
 }
 
-func (rff *RandomlyFormattingFormatter) formatWord(word string) string {
+func (rff *RandomlyFormattingFormatter) Format(word string) string {
 	if rff.Rand.Rand().Cmp(rff.Threshold) > 0 {
 		return rff.Other.Format(word)
 	}
 	return word
 }
 
-func NewRandomlyFormatter() *RandomlyFormattingFormatter {
-	return &RandomlyFormattingFormatter{thresholdRandom: newFiftyFifty()}
+func NewRandomlyFormatter(wrap Formatter) Formatter {
+	random := &RandomlyFormattingFormatter{thresholdRandom: newFiftyFifty()}
+	random.Other = wrap
+	return &PerWordFormattingFormatter{random}
 }
 
 type TitleFormatter struct{}
@@ -89,8 +96,7 @@ func (t TitleFormatter) Format(word string) string {
 }
 
 func RandomTitleFormatter() Formatter {
-	randomFormatter := NewRandomlyFormatter()
-	randomFormatter.Other = TitleFormatter{}
+	randomFormatter := NewRandomlyFormatter(TitleFormatter{})
 	return randomFormatter
 }
 
@@ -113,4 +119,19 @@ func DelimiterFormatterWith(repl string) Formatter {
 		regexp.MustCompile(` `),
 		repl,
 	}
+}
+
+type ReversingFormatter struct{}
+
+func (r *ReversingFormatter) Format(text string) string {
+	l := len(text)
+	reversed := make([]rune, l)
+	for i, t := range text {
+		reversed[l-i-1] = t
+	}
+	return string(reversed)
+}
+
+func NewWordReversingFormatter() Formatter {
+	return &PerWordFormattingFormatter{&ReversingFormatter{}}
 }
