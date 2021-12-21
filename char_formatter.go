@@ -206,7 +206,7 @@ type UppercaseCharFormatter struct{}
 var _ CharFormatter = UppercaseCharFormatter{}
 
 //FormatRune uppercases the rune
-func (_ UppercaseCharFormatter) FormatRune(r rune) []rune {
+func (UppercaseCharFormatter) FormatRune(r rune) []rune {
 	return []rune{unicode.ToUpper(r)}
 }
 
@@ -216,7 +216,7 @@ type LowercaseCharFormatter struct{}
 var _ CharFormatter = LowercaseCharFormatter{}
 
 //FormatRune the rune, but lowercase
-func (_ LowercaseCharFormatter) FormatRune(r rune) []rune {
+func (LowercaseCharFormatter) FormatRune(r rune) []rune {
 	return []rune{unicode.ToLower(r)}
 }
 
@@ -226,7 +226,7 @@ type SwitchCaseCharFormatter struct{}
 var _ CharFormatter = SwitchCaseCharFormatter{}
 
 //FormatRune switches case of the rune
-func (_ SwitchCaseCharFormatter) FormatRune(r rune) []rune {
+func (SwitchCaseCharFormatter) FormatRune(r rune) []rune {
 	if unicode.IsUpper(r) {
 		return []rune{unicode.ToLower(r)}
 	} else {

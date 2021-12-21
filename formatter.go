@@ -42,12 +42,12 @@ var _ Formatter = UnitFormatter{}
 var _ CharFormatter = UnitFormatter{}
 
 //Format returns the input
-func (_ UnitFormatter) Format(words string) string {
+func (UnitFormatter) Format(words string) string {
 	return words
 }
 
 //FormatRune return the rune wrapped in a slice
-func (_ UnitFormatter) FormatRune(r rune) []rune {
+func (UnitFormatter) FormatRune(r rune) []rune {
 	return []rune{r}
 }
 
@@ -115,7 +115,7 @@ type TitleFormatter struct{}
 var _ Formatter = TitleFormatter{}
 
 //Format calls strings.Title on the given text
-func (_ TitleFormatter) Format(word string) string {
+func (TitleFormatter) Format(word string) string {
 	return strings.Title(word)
 }
 
@@ -154,7 +154,7 @@ func DelimiterFormatterWith(repl string) Formatter {
 type ReversingFormatter struct{}
 
 //Format reverses the input text
-func (_ ReversingFormatter) Format(text string) string {
+func (ReversingFormatter) Format(text string) string {
 	l := len(text)
 	reversed := make([]rune, l)
 	for i, t := range text {
