@@ -10,20 +10,24 @@ type Formatter interface {
 	Format(string) string
 }
 
+//CharFormatter is a formatter that emits a slice of runes given a single rune.
 type CharFormatter interface {
 	FormatRune(rune) []rune
 }
 
+//MultiFormatter is a wrapper to handle formatting with multiple Formatters
 type MultiFormatter struct {
 	Formatters []Formatter
 }
 
+//With appends a given Formatter to the Formatters in MultiFormatter
 func (m *MultiFormatter) With(f Formatter) {
 	if f != nil {
 		m.Formatters = append(m.Formatters, f)
 	}
 }
 
+//Format delegates/reassigns the input string sequentially for all formatters
 func (m *MultiFormatter) Format(word string) string {
 	for _, f := range m.Formatters {
 		word = f.Format(word)
@@ -31,18 +35,30 @@ func (m *MultiFormatter) Format(word string) string {
 	return word
 }
 
+//UnitFormatter is a Noop Formatter and CharFormatter implementation
 type UnitFormatter struct{}
 
 var _ Formatter = UnitFormatter{}
+var _ CharFormatter = UnitFormatter{}
 
-func (u UnitFormatter) Format(words string) string {
+//Format returns the input
+func (_ UnitFormatter) Format(words string) string {
 	return words
 }
 
+//FormatRune return the rune wrapped in a slice
+func (_ UnitFormatter) FormatRune(r rune) []rune {
+	return []rune{r}
+}
+
+//CharFormatterDelegatingFormatter is a Formatter that delegates each letter in the input to a CharFormatter
 type CharFormatterDelegatingFormatter struct {
 	CharFormatter
 }
 
+var _ Formatter = &CharFormatterDelegatingFormatter{}
+
+//Format calls the wrapped CharFormatter's FormatRune-method
 func (c *CharFormatterDelegatingFormatter) Format(word string) string {
 	out := make([]rune, len(word))
 	for _, r := range word {
@@ -51,6 +67,22 @@ func (c *CharFormatterDelegatingFormatter) Format(word string) string {
 	return string(out)
 }
 
+//PerWordFormattingFormatter delegates to another formatter, but calls the format method for each word
+type PerWordFormattingFormatter struct {
+	Other Formatter
+}
+
+//Format splits the text on space, and calls Other > Format for each word, then joining the text again.
+func (rff *PerWordFormattingFormatter) Format(word string) string {
+	words := strings.Split(word, ` `)
+	ws := make([]string, len(words))
+	for i, word := range words {
+		ws[i] = rff.Other.Format(word)
+	}
+	return strings.Join(ws, ` `)
+}
+
+//RandomlyFormattingFormatter is a formatter that formats at a rate of 50%
 type RandomlyFormattingFormatter struct {
 	thresholdRandom
 	Other Formatter
@@ -61,19 +93,7 @@ var _ Formatter = &RandomlyFormattingFormatter{
 	Other:           nil,
 }
 
-type PerWordFormattingFormatter struct {
-	Other Formatter
-}
-
-func (rff *PerWordFormattingFormatter) Format(word string) string {
-	words := strings.Split(word, ` `)
-	ws := make([]string, len(words))
-	for i, word := range words {
-		ws[i] = rff.Other.Format(word)
-	}
-	return strings.Join(ws, ` `)
-}
-
+//Format calls the Other > Format at a rate of 50%
 func (rff *RandomlyFormattingFormatter) Format(word string) string {
 	if rff.Rand.Rand().Cmp(rff.Threshold) > 0 {
 		return rff.Other.Format(word)
@@ -81,23 +101,27 @@ func (rff *RandomlyFormattingFormatter) Format(word string) string {
 	return word
 }
 
+//NewRandomlyFormatter is a method that wraps a given Formatter,
+//with the RandomlyFormattingFormatter that is wrapped with a PerWordFormattingFormatter
 func NewRandomlyFormatter(wrap Formatter) Formatter {
 	random := &RandomlyFormattingFormatter{thresholdRandom: newFiftyFifty()}
 	random.Other = wrap
 	return &PerWordFormattingFormatter{random}
 }
 
+//TitleFormatter is a Formatter that Titles the given text
 type TitleFormatter struct{}
 
 var _ Formatter = TitleFormatter{}
 
-func (t TitleFormatter) Format(word string) string {
+//Format calls strings.Title on the given text
+func (_ TitleFormatter) Format(word string) string {
 	return strings.Title(word)
 }
 
+//RandomTitleFormatter returns a formatter that titles only every other time
 func RandomTitleFormatter() Formatter {
-	randomFormatter := NewRandomlyFormatter(TitleFormatter{})
-	return randomFormatter
+	return NewRandomlyFormatter(TitleFormatter{})
 }
 
 var _ Formatter = &RandomlyFormattingFormatter{
@@ -105,15 +129,20 @@ var _ Formatter = &RandomlyFormattingFormatter{
 	Other:           nil,
 }
 
+//RegexReplacingFormatter is a Formatter that performs a regex replace functionality on the given text
 type RegexReplacingFormatter struct {
+	//PatternMatcher is a regexp.Regexp, to match against the text
 	PatternMatcher *regexp.Regexp
-	Replacement    string
+	//Replacement is whatever is to be replaced by the given PatternMatcher
+	Replacement string
 }
 
+//Format replaces all instances of the given regex PatternMatcher with the Replacement
 func (rr *RegexReplacingFormatter) Format(word string) string {
 	return rr.PatternMatcher.ReplaceAllString(word, rr.Replacement)
 }
 
+//DelimiterFormatterWith replaces all spaces with the given string
 func DelimiterFormatterWith(repl string) Formatter {
 	return &RegexReplacingFormatter{
 		regexp.MustCompile(` `),
@@ -121,9 +150,11 @@ func DelimiterFormatterWith(repl string) Formatter {
 	}
 }
 
+//ReversingFormatter reverses the string
 type ReversingFormatter struct{}
 
-func (r *ReversingFormatter) Format(text string) string {
+//Format reverses the input text
+func (_ *ReversingFormatter) Format(text string) string {
 	l := len(text)
 	reversed := make([]rune, l)
 	for i, t := range text {
@@ -132,6 +163,8 @@ func (r *ReversingFormatter) Format(text string) string {
 	return string(reversed)
 }
 
+//NewWordReversingFormatter returns a ReversingFormatter that reverses each words in a group,
+//and not the entire text as one
 func NewWordReversingFormatter() Formatter {
 	return &PerWordFormattingFormatter{&ReversingFormatter{}}
 }
