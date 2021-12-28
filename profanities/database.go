@@ -1100,4 +1100,27 @@ var radix = [...]*radixWordNode{
 	{val: `FU`, word: EXCL | MISSPELL},
 	{val: `enslav`, branches: ingEdErEndings},
 	{val: `enslave`, word: EXCL},
+
+	{val: `spawn`, word: END, branches: ingEndings},
+	{val: `villain`, word: END | EXCL, branches: []*radixWordNode{
+		{val: `y`, word: END},
+		{val: `ous`, word: FILLER},
+	}},
+	{val: `sin`, word: END, branches: []*radixWordNode{
+		{val: `ful`, word: DEFAULT, branches: lyEndings},
+	}},
+	{val: `sinn`, branches: ingEdErEndings},
+	{val: `vandal`, word: END, branches: ingEndings},
+	{val: `tacky`, word: DEFAULT},
+	{val: `immoral`, word: DEFAULT, branches: lyEndings},
+	{val: `deprav`, branches: ingEdEndings},
+	{val: `depravity`, word: END | EXCL},
+	{val: `corrupt`, word: DEFAULT | EXCL, branches: ingEdEndings},
+	{val: `corruptness`, word: END},
+	{val: `corruption`, word: END | EXCL},
+	{val: `degeneration`, word: END | EXCL},
+	{val: `degenerat`, branches: ingEdEndings},
+	{val: `degenerate`, word: END | EXCLS},
+	{val: `unchaste`, word: DEFAULT | EXCL},
+	{val: `unchasten`, branches: edEndings},
 }
