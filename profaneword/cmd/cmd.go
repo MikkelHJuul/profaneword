@@ -83,7 +83,7 @@ if an attacker knows you use this generator. But hey, it's just for fun.`,
 		Use:   "version",
 		Short: "print the version and exit",
 		Run: func(cmd *cobra.Command, _ []string) {
-			cmd.Print("0.5.1")
+			cmd.Print("0.5.2")
 		},
 	}
 )
