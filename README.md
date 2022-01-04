@@ -4,7 +4,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/62cb1cb88e6391f3aa8d/maintainability)](https://codeclimate.com/github/MikkelHJuul/profaneword/maintainability)
 ![GitHub License](https://img.shields.io/github/license/MikkelHJuul/profaneword)
 
-profane password generator (<span style="color:red">vulnerable to brute force attacks</span>), as suggested by [u/gatestone](https://www.reddit.com/r/golang/comments/r5hn12/comment/hmnyk9k/?utm_source=share&utm_medium=web2x&context=3).
+profane password generator, as suggested by [u/gatestone](https://www.reddit.com/r/golang/comments/r5hn12/comment/hmnyk9k/?utm_source=share&utm_medium=web2x&context=3).
 ## how it works
 
 install:
@@ -135,19 +135,22 @@ D45D4D
 
 
 ## Statistics
-TODO, more notes on the vulnerability of this library
+The file [`data_report_test.go`](profanities/data_report_test.go) computes the number of combinations:
 
-There are more than 2000 words in the database of the flags `START` or `FILLER` and 800 of `END`. There are 21 sentences, and Titling doubles the number of words.
-which means for the general case there are `2000^(2)*2*21=168 mil` combinations. Before moving into the formatters. With `--extend` flag there are about 160 billion combinations in the worst case.
+for...
+* 1 word there will be 54.60 thousand combinations and on average 8.22 letters in each word
+* 2 words there will be 6.25 billion combinations and on average 8.25 letters in each word
+* 3 words there will be 715.97 trillion combinations and on average 8.25 letters in each word
 
-When is it no longer vulnerable?
+These numbers refer to the database level
 
 formatters: 
-- `whisper` reduces the combinations by 2 (if the cracker knows you are using the formatter).
-- `SCREAM` add 1 more combination of each word.
-- `/s` increase combinations by a lot (`2*` the length of the word) `whisper` and `SCREAM` are special (very rare) combinations of `/s`
+- `Title` is always ON, and virtually doubles the number of combinations
+- `whisper` removes the combinations added by title.
+- `SCREAM` adds 1 more combination of each word.
+- `/s` increase combinations by a lot (`2^(8*n)` - the length of the word times number of words) `whisper` and `SCREAM` are special (very rare) combinations of `/s`
 - `random/randomly` for `/s` it simply makes the uncommon possibilities a lot more common,
 - `fat` and `fst` both increase the combinations by a lot. Again `random/randomly` just changes the distribution of the possible outcomes.
-- `1337` adds one combination, `random 1337` adds a lot of combinations. 
+- `1337` adds one combination, `random 1337` adds a lot of combinations (`2^(~3*n)`). 
 - `uber1337` adds many combinations, `random uber1337` adds a lot of combinations onto those. 
-- using `--no MISSPELL` reduces combinations significantly. Down to about 10 million combinations for `extensiveness=2` and no formatters.
+- using `--no MISSPELL` reduces combinations significantly.
