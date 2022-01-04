@@ -13,9 +13,33 @@ install:
 go install github.com/MikkelHJuul/profaneword/profaneword@latest
 ```
 play
-```bash 
+```
 ❯ profaneword
 Ad vs. Mean
+
+❯ while true; do profaneword;done
+Nastile? Enslaving!?
+nakedle = Prick-Fucking!
+Unwant'N Vs anal-secreten!
+Lick'N-Fucker! bollox...NOT!
+jizz'n Of Rile 8===D
+serial-killer chilly?
+strangling < Nut-Sack 8===D
+degenerate - satanicalli-fucking!
+tediousness: overgrowth-fucking!
+Brutalle < Dolefulness-Fucker!
+baddie FU
+Unforgiving = aggressively!
+Excommunicaten > 8===D--pesky
+Unjustifi'D Imp
+sex-butt-sex Sinned!!
+Degenerate!? Poop'N!?
+Spooky > Sex-Rild!
+drowsy!? Dung
+Loner => sex-passivation!
+Henchman?! angrile
+Soggy 8===D Tripp'N 8===D
+^C
 
 ~ 
 ❯ profaneword --extend
@@ -77,10 +101,13 @@ sissy+is+Excommunication
 ❯ profaneword --no MISSPELL
 Awkwardly? sex-exacerbate!
 
+~ 
+❯ profaneword swear
+*%"%$@$&+!e %"!s +@*%*+&$!?
+
+~ 
 ❯ profaneword --help
-profaneword is a CLI library and tool for generating obscene/profane passwords. 
-It's probably not particularly safe to use, as these passwords will be easy to brute force; 
-if an attacker knows you use this generator. But hey, it's just for fun.
+profaneword is a CLI library and tool for generating obscene/profane passwords.
 
 Usage:
   profaneword [flags] [..args]
@@ -108,12 +135,13 @@ Args[formatters]:
   esrever         desrever tuptuo, per word; this cannot be coupled with 'random', functionality of 'random' will be ignored
   SCREAM          OUTPUT IS UPPERCASE
   whisper         output is lowercased
+  swear           output cartoonish #%$@!!
   /s              sARcaSTiC OUtpUt
-	
+        
   randomly        the next formatter is applied only randomly (per word basis) threshold is 50:50
   random          the next formatter is applied only randomly (per character basis) threshold is 50:50
-                    both "random" and "randomly" are chainable onto themselves, 
-                    though "randomly" must be before "random"
+                  both "random" and "randomly" are chainable onto themselves, 
+                  though "randomly" must be before "random"
 
 
 Use "profaneword [command] --help" for more information about a command.

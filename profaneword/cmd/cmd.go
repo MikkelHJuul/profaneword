@@ -59,11 +59,9 @@ Use "{{.CommandPath}} [command] --help" for more information about a command.{{e
 
 var (
 	profaneCmd = &cobra.Command{
-		Use:   "profaneword",
-		Short: "A generator for profane passwords as requested by u/gatestone",
-		Long: `profaneword is a CLI library and tool for generating obscene/profane passwords. 
-It's probably not particularly safe to use, as these passwords will be easy to brute force; 
-if an attacker knows you use this generator. But hey, it's just for fun.`,
+		Use:       "profaneword",
+		Short:     "A generator for profane passwords as requested by u/gatestone",
+		Long:      `profaneword is a CLI library and tool for generating obscene/profane passwords.`,
 		Args:      cobra.OnlyValidArgs,
 		ValidArgs: formatters,
 		Run:       profaneWords,
@@ -73,7 +71,7 @@ if an attacker knows you use this generator. But hey, it's just for fun.`,
 	obscure = &cobra.Command{
 		Use:       "obscure",
 		Short:     "apply formatters on std in",
-		Long:      "obscure applies formatters on std in thus you can format any text, or format an output given by profaneword",
+		Long:      "obscure applies formatters on stdin thus you can format any text, or post-format an output given by profaneword",
 		Args:      cobra.OnlyValidArgs,
 		ValidArgs: formatters,
 		Run:       obscureFunc,
