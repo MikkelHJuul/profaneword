@@ -49,9 +49,9 @@ func (pw *ProfanitySentencer) Sentence(sentence *Sentence) string {
 
 func (pw *ProfanitySentencer) getRandomText(word, dissallowedWord Word) string {
 	w := ""
-	rLen := len(radix)
+	rLen := len(wordData)
 	for w == "" {
-		base := radix[pw.RandMax(rLen)]
+		base := wordData[pw.RandMax(rLen)]
 		wrds := base.GetOfSingle(word, dissallowedWord)
 		if len(wrds) > 0 {
 			w = wrds[pw.RandMax(len(wrds))]

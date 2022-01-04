@@ -42,6 +42,7 @@ Args[formatters]:
   esrever         desrever tuptuo, per word; this cannot be coupled with 'random', functionality of 'random' will be ignored
   SCREAM          OUTPUT IS UPPERCASE
   whisper         output is lowercased
+  swear           output cartoonish #%$@!!
   /s              sARcaSTiC OUtpUt
 	
   randomly        the next formatter is applied only randomly (per word basis) threshold is 50:50

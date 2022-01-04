@@ -3,6 +3,7 @@ package profaneword
 import (
 	"regexp"
 	"strings"
+	"unicode"
 )
 
 //Formatter is a formatter, that formats the entire input text(string) and outputs the formatted text
@@ -13,6 +14,18 @@ type Formatter interface {
 //CharFormatter is a formatter that emits a slice of runes given a single rune.
 type CharFormatter interface {
 	FormatRune(rune) []rune
+}
+
+type WrappingCharFormatter interface {
+	CharFormatter
+	SetCharFormatter(CharFormatter)
+	GetCharFormatter() CharFormatter
+}
+
+type WrappingFormatter interface {
+	Formatter
+	SetFormatter(Formatter)
+	GetFormatter() Formatter
 }
 
 //MultiFormatter is a wrapper to handle formatting with multiple Formatters
@@ -67,17 +80,33 @@ func (c *CharFormatterDelegatingFormatter) Format(word string) string {
 	return string(out)
 }
 
+func (c *CharFormatterDelegatingFormatter) SetCharFormatter(formatter CharFormatter) {
+	c.CharFormatter = formatter
+}
+
+func (c *CharFormatterDelegatingFormatter) GetCharFormatter() CharFormatter {
+	return c.CharFormatter
+}
+
 //PerWordFormattingFormatter delegates to another formatter, but calls the format method for each word
 type PerWordFormattingFormatter struct {
 	Other Formatter
 }
 
+func (p *PerWordFormattingFormatter) SetFormatter(formatter Formatter) {
+	p.Other = formatter
+}
+
+func (p *PerWordFormattingFormatter) GetFormatter() Formatter {
+	return p.Other
+}
+
 //Format splits the text on space, and calls Other > Format for each word, then joining the text again.
-func (rff *PerWordFormattingFormatter) Format(word string) string {
+func (p *PerWordFormattingFormatter) Format(word string) string {
 	words := strings.Split(word, ` `)
 	ws := make([]string, len(words))
 	for i, word := range words {
-		ws[i] = rff.Other.Format(word)
+		ws[i] = p.Other.Format(word)
 	}
 	return strings.Join(ws, ` `)
 }
@@ -101,11 +130,19 @@ func (rff *RandomlyFormattingFormatter) Format(word string) string {
 	return word
 }
 
+func (rff *RandomlyFormattingFormatter) SetFormatter(wrap Formatter) {
+	rff.Other = wrap
+}
+
+func (rff *RandomlyFormattingFormatter) GetFormatter() Formatter {
+	return rff.Other
+}
+
 //NewRandomlyFormatter is a method that wraps a given Formatter,
 //with the RandomlyFormattingFormatter that is wrapped with a PerWordFormattingFormatter
 func NewRandomlyFormatter(wrap Formatter) Formatter {
 	random := &RandomlyFormattingFormatter{thresholdRandom: newFiftyFifty()}
-	random.Other = wrap
+	random.SetFormatter(wrap)
 	return &PerWordFormattingFormatter{random}
 }
 
@@ -167,4 +204,37 @@ func (ReversingFormatter) Format(text string) string {
 //and not the entire text as one
 func NewWordReversingFormatter() Formatter {
 	return &PerWordFormattingFormatter{ReversingFormatter{}}
+}
+
+type swearFormatter struct {
+	CharFormatter
+}
+
+func (s *swearFormatter) SetCharFormatter(wrap CharFormatter) {
+	s.CharFormatter = wrap
+}
+
+func (s *swearFormatter) GetCharFormatter() CharFormatter {
+	return s.CharFormatter
+}
+
+var _ Formatter = &swearFormatter{swearCharFormatter{}}
+
+func (s *swearFormatter) Format(word string) string {
+	var runes []rune
+	for i, c := range word {
+		if unicode.IsLetter(c) {
+			runes = append(runes, s.FormatRune(c)...)
+		} else {
+			runes = append(runes, []rune(`!`+word[i:])...)
+			break
+		}
+	}
+	return string(runes)
+}
+
+func NewSwearFormatter() Formatter {
+	return &PerWordFormattingFormatter{&swearFormatter{&swearCharFormatter{
+		CryptoRand{},
+	}}}
 }

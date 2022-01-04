@@ -55,8 +55,8 @@ var icallyEndingNode = &radixWordNode{
 	}}
 var icallyEnding = []*radixWordNode{icallyEndingNode}
 
-//radix is a non-compacted radix-tree, containing all words
-var radix = [...]*radixWordNode{
+//wordData is a non-compacted radix-tree, containing all words
+var wordData = [...]*radixWordNode{
 	{val: `Christ`, word: END},
 	{val: `Good lord`, word: END},
 	{val: `Jesus`, word: END, branches: []*radixWordNode{

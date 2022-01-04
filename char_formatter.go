@@ -19,6 +19,16 @@ type RandomlyFormattingCharFormatter struct {
 	Other CharFormatter
 }
 
+func (rff *RandomlyFormattingCharFormatter) SetCharFormatter(wrap CharFormatter) {
+	rff.Other = wrap
+}
+
+func (rff *RandomlyFormattingCharFormatter) GetCharFormatter() CharFormatter {
+	return rff.Other
+}
+
+var _ WrappingCharFormatter = &RandomlyFormattingCharFormatter{}
+
 //FormatRune formats a single rune or not given the Random with threshold
 func (rff *RandomlyFormattingCharFormatter) FormatRune(r rune) []rune {
 	if rff.Rand.Rand().Cmp(rff.Threshold) > 0 {
@@ -240,4 +250,18 @@ func NewSarcasticFormatter() Formatter {
 	randomFormatter := NewRandomFormatter()
 	randomFormatter.Other = &SwitchCaseCharFormatter{}
 	return &CharFormatterDelegatingFormatter{randomFormatter}
+}
+
+type swearCharFormatter struct {
+	RandomDevice
+}
+
+var _ CharFormatter = swearCharFormatter{
+	CryptoRand{},
+}
+
+func (s swearCharFormatter) FormatRune(_ rune) []rune {
+	letters := `#&$@%+*"`
+	idx := s.RandMax(len(letters))
+	return []rune{rune(letters[idx])}
 }
