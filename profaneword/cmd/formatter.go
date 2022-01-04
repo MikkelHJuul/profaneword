@@ -27,6 +27,34 @@ var formatters = []string{
 	string(reverse), string(swear),
 }
 
+type formatFunc func([]string, int) (int, profaneword.Formatter)
+
+type plainFormatter func() profaneword.Formatter
+
+func (p plainFormatter) formatF() formatFunc {
+	return func(strings []string, i int) (int, profaneword.Formatter) {
+		return i, p()
+	}
+}
+
+var formatterFuncs map[formatter]formatFunc
+
+func init() {
+	formatterFuncs = map[formatter]formatFunc{
+		sarcastic:   plainFormatter(profaneword.NewSarcasticFormatter).formatF(),
+		l337:        plainFormatter(profaneword.L337Formatter).formatF(),
+		uberL337:    plainFormatter(profaneword.Uber1337Formatter).formatF(),
+		fatFingers:  plainFormatter(profaneword.NewFatFingerFormatter).formatF(),
+		fastFingers: plainFormatter(profaneword.NewFastFingerFormatter).formatF(),
+		scream:      plainFormatter(profaneword.NewUppercaseFormatter).formatF(),
+		whisper:     plainFormatter(profaneword.NewLowercaseFormatter).formatF(),
+		reverse:     plainFormatter(profaneword.NewWordReversingFormatter).formatF(),
+		swear:       plainFormatter(profaneword.NewSwearFormatter).formatF(),
+		randomly:    getRandomlyFormatter,
+		random:      getRandomFormatter,
+	}
+}
+
 func formatterOf(args []string, formatters ...profaneword.Formatter) profaneword.Formatter {
 	mulF := &profaneword.MultiFormatter{Formatters: formatters}
 	for i := 0; i < len(args); i++ {
@@ -41,55 +69,41 @@ func getFormatter(args []string, i int) (int, profaneword.Formatter) {
 	if i == len(args) {
 		return i, profaneword.UnitFormatter{}
 	}
-	arg := args[i]
-	switch formatter(arg) {
-	case sarcastic:
-		return i, profaneword.NewSarcasticFormatter()
-	case l337:
-		return i, profaneword.L337Formatter()
-	case uberL337:
-		return i, profaneword.Uber1337Formatter()
-	case fatFingers:
-		return i, profaneword.NewFatFingerFormatter()
-	case fastFingers:
-		return i, profaneword.NewFastFingerFormatter()
-	case scream:
-		return i, &profaneword.CharFormatterDelegatingFormatter{CharFormatter: profaneword.UppercaseCharFormatter{}}
-	case whisper:
-		return i, &profaneword.CharFormatterDelegatingFormatter{CharFormatter: profaneword.LowercaseCharFormatter{}}
-	case reverse:
-		return i, profaneword.NewWordReversingFormatter()
-	case swear:
-		return i, profaneword.NewSwearFormatter()
-	case randomly:
-		i++
-		var wrappedFormatter profaneword.Formatter
-		i, wrappedFormatter = getFormatter(args, i)
-		randomlyFormatter := profaneword.NewRandomlyFormatter(wrappedFormatter)
-		return i, randomlyFormatter
-	case random:
-		i++
-		var wrappedFormatter profaneword.Formatter
-		i, wrappedFormatter = getFormatter(args, i)
-		charFormatter, ok := wrappedFormatter.(profaneword.CharFormatter)
-		if !ok {
-			if delegating, isType := wrappedFormatter.(profaneword.WrappingFormatter); isType {
-				if charFormatter, ok = delegating.GetFormatter().(profaneword.CharFormatter); ok {
-					formatterToWrap := wrapRandom(charFormatter)
-					delegating.SetFormatter(formatterToWrap)
-					return i, delegating
-				}
-			}
-			return i, wrappedFormatter
-		}
-		wrapped := wrapRandom(charFormatter)
-		if delegating, isType := wrappedFormatter.(profaneword.WrappingFormatter); isType {
-			delegating.SetFormatter(wrapped)
-			return i, delegating
-		}
-		return i, wrapped
+	if formatterFunc, ok := formatterFuncs[formatter(args[i])]; ok {
+		return formatterFunc(args, i)
 	}
 	return i, profaneword.UnitFormatter{}
+}
+
+func getRandomlyFormatter(args []string, i int) (int, profaneword.Formatter) {
+	i++
+	var wrappedFormatter profaneword.Formatter
+	i, wrappedFormatter = getFormatter(args, i)
+	randomlyFormatter := profaneword.NewRandomlyFormatter(wrappedFormatter)
+	return i, randomlyFormatter
+}
+
+func getRandomFormatter(args []string, i int) (int, profaneword.Formatter) {
+	i++
+	var wrappedFormatter profaneword.Formatter
+	i, wrappedFormatter = getFormatter(args, i)
+	charFormatter, ok := wrappedFormatter.(profaneword.CharFormatter)
+	if !ok {
+		if delegating, isType := wrappedFormatter.(profaneword.WrappingFormatter); isType {
+			if charFormatter, ok = delegating.GetFormatter().(profaneword.CharFormatter); ok {
+				formatterToWrap := wrapRandom(charFormatter)
+				delegating.SetFormatter(formatterToWrap)
+				return i, delegating
+			}
+		}
+		return i, wrappedFormatter
+	}
+	wrapped := wrapRandom(charFormatter)
+	if delegating, isType := wrappedFormatter.(profaneword.WrappingFormatter); isType {
+		delegating.SetFormatter(wrapped)
+		return i, delegating
+	}
+	return i, wrapped
 }
 
 func wrapRandom(charFormatter profaneword.CharFormatter) profaneword.Formatter {

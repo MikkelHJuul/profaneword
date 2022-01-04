@@ -220,6 +220,10 @@ func (UppercaseCharFormatter) FormatRune(r rune) []rune {
 	return []rune{unicode.ToUpper(r)}
 }
 
+func NewUppercaseFormatter() Formatter {
+	return &CharFormatterDelegatingFormatter{CharFormatter: UppercaseCharFormatter{}}
+}
+
 //LowercaseCharFormatter formats lowercase
 type LowercaseCharFormatter struct{}
 
@@ -228,6 +232,10 @@ var _ CharFormatter = LowercaseCharFormatter{}
 //FormatRune the rune, but lowercase
 func (LowercaseCharFormatter) FormatRune(r rune) []rune {
 	return []rune{unicode.ToLower(r)}
+}
+
+func NewLowercaseFormatter() Formatter {
+	return &CharFormatterDelegatingFormatter{CharFormatter: LowercaseCharFormatter{}}
 }
 
 //SwitchCaseCharFormatter switch the case
