@@ -83,8 +83,8 @@ func (pw *ProfanitySentencer) GetSentence(numWords int) *Sentence {
 	}
 	var cur *Sentence
 	var s sent
-	pos := not_last
-	for pos&not_last != 0 {
+	pos := notLast
+	for pos&notLast != 0 {
 		cur, s = randSent()
 		pos = s.sentPos
 	}
@@ -106,7 +106,7 @@ const all Word = 255
 type sentPos uint8
 
 const (
-	not_last sentPos = 16
+	notLast sentPos = 16
 )
 
 type sent struct {
@@ -130,21 +130,21 @@ var sentences = [...]sent{
 	{sentnc: sentnc{format: `%s...NOT! `, word: efe}},
 	{sentnc: sentnc{format: `%s 8===D `, word: efe}},
 	{sentnc: sentnc{format: `8===D--%s `, word: efe}},
-	{sentnc: sentnc{format: `%s-`, word: all}, sentPos: not_last},
-	{sentnc: sentnc{format: `%s vs `, word: all}, sentPos: not_last},
-	{sentnc: sentnc{format: `%s vs. `, word: all}, sentPos: not_last},
-	{sentnc: sentnc{format: `%s, `, word: all}, sentPos: not_last},
-	{sentnc: sentnc{format: `%s: `, word: all}, sentPos: not_last},
-	{sentnc: sentnc{format: `%s; `, word: all}, sentPos: not_last},
-	{sentnc: sentnc{format: `%s - `, word: all}, sentPos: not_last},
-	{sentnc: sentnc{format: `%s -> `, word: all}, sentPos: not_last},
-	{sentnc: sentnc{format: `%s => `, word: all}, sentPos: not_last},
-	{sentnc: sentnc{format: `%s < `, word: all}, sentPos: not_last},
-	{sentnc: sentnc{format: `%s > `, word: all}, sentPos: not_last},
-	{sentnc: sentnc{format: `%s = `, word: all}, sentPos: not_last},
-	{sentnc: sentnc{format: `%s == `, word: all}, sentPos: not_last},
-	{sentnc: sentnc{format: `%s is `, word: all}, sentPos: not_last},
-	{sentnc: sentnc{format: `%s or `, word: all}, sentPos: not_last},
-	{sentnc: sentnc{format: `%s of `, word: all}, sentPos: not_last},
+	{sentnc: sentnc{format: `%s-`, word: all}, sentPos: notLast},
+	{sentnc: sentnc{format: `%s vs `, word: all}, sentPos: notLast},
+	{sentnc: sentnc{format: `%s vs. `, word: all}, sentPos: notLast},
+	{sentnc: sentnc{format: `%s, `, word: all}, sentPos: notLast},
+	{sentnc: sentnc{format: `%s: `, word: all}, sentPos: notLast},
+	{sentnc: sentnc{format: `%s; `, word: all}, sentPos: notLast},
+	{sentnc: sentnc{format: `%s - `, word: all}, sentPos: notLast},
+	{sentnc: sentnc{format: `%s -> `, word: all}, sentPos: notLast},
+	{sentnc: sentnc{format: `%s => `, word: all}, sentPos: notLast},
+	{sentnc: sentnc{format: `%s < `, word: all}, sentPos: notLast},
+	{sentnc: sentnc{format: `%s > `, word: all}, sentPos: notLast},
+	{sentnc: sentnc{format: `%s = `, word: all}, sentPos: notLast},
+	{sentnc: sentnc{format: `%s == `, word: all}, sentPos: notLast},
+	{sentnc: sentnc{format: `%s is `, word: all}, sentPos: notLast},
+	{sentnc: sentnc{format: `%s or `, word: all}, sentPos: notLast},
+	{sentnc: sentnc{format: `%s of `, word: all}, sentPos: notLast},
 	{sentnc: sentnc{format: `%s `, word: efe}},
 }
