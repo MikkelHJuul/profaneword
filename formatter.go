@@ -221,16 +221,20 @@ func (s *swearFormatter) GetCharFormatter() CharFormatter {
 var _ Formatter = &swearFormatter{swearCharFormatter{}}
 
 func (s *swearFormatter) Format(word string) string {
+	if !unicode.IsLetter(rune(word[0])) {
+		return word
+	}
 	var runes []rune
-	for i, c := range word {
+	var i int
+	var c rune
+	for i, c = range word {
 		if unicode.IsLetter(c) {
 			runes = append(runes, s.FormatRune(c)...)
 		} else {
-			runes = append(runes, []rune(`!`+word[i:])...)
 			break
 		}
 	}
-	return string(runes)
+	return string(runes) + `!` + word[i:]
 }
 
 func NewSwearFormatter() Formatter {
