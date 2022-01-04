@@ -247,9 +247,8 @@ var _ CharFormatter = SwitchCaseCharFormatter{}
 func (SwitchCaseCharFormatter) FormatRune(r rune) []rune {
 	if unicode.IsUpper(r) {
 		return []rune{unicode.ToLower(r)}
-	} else {
-		return []rune{unicode.ToUpper(r)}
 	}
+	return []rune{unicode.ToUpper(r)}
 }
 
 //NewSarcasticFormatter returns a CharFormatterDelegatingFormatter that wraps a
