@@ -1179,7 +1179,6 @@ var wordData = [...]*radixWordNode{
 	{val: `conspir`, branches: ingEdErEndings},
 	{val: `scorn`, word: END | EXCL, branches: edEndings},
 	{val: `scornful`, word: DEFAULT, branches: lyEndings},
-	{val: `scornful`, word: DEFAULT, branches: lyEndings},
 	{val: `resignation`, word: END},
 	{val: `resign`, word: END, branches: ingEdEndings},
 	{val: `privates`, word: END},
