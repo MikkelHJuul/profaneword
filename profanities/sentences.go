@@ -147,4 +147,5 @@ var sentences = [...]sent{
 	{sentnc: sentnc{format: `%s or `, word: all}, sentPos: notLast},
 	{sentnc: sentnc{format: `%s of `, word: all}, sentPos: notLast},
 	{sentnc: sentnc{format: `%s `, word: efe}},
+	{sentnc: sentnc{format: `son-of-a-%s `, word: END}},
 }
