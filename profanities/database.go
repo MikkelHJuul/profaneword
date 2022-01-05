@@ -1201,4 +1201,7 @@ var wordData = [...]*radixWordNode{
 	{val: `abomination`, word: END, branches: pluralRelate},
 	{val: `abominable`, word: DEFAULT | EXCL},
 	{val: `abominab`, branches: lyEndings},
+	{val: `malpractic`, branches: ingEndings},
+	{val: `malpractice`, word: END, branches: plural},
+	{val: `malpractition`, word: END, branches: []*radixWordNode{ingNode, erNode}},
 }
