@@ -16,6 +16,9 @@ const (
 	whisper     formatter = "whisper"
 	reverse     formatter = "esrever"
 	swear       formatter = "swear"
+	studder     formatter = "studder"
+	shuffle     formatter = "shuffle"
+	horse       formatter = "horse"
 	randomly    formatter = "randomly"
 	random      formatter = "random"
 )
@@ -24,7 +27,8 @@ var formatters = []string{
 	string(l337), string(uberL337), string(sarcastic),
 	string(scream), string(whisper), string(randomly),
 	string(random), string(fatFingers), string(fastFingers),
-	string(reverse), string(swear),
+	string(reverse), string(swear), string(studder),
+	string(horse), string(shuffle),
 }
 
 type formatFunc func([]string, int) (int, profaneword.Formatter)
@@ -50,6 +54,9 @@ func init() {
 		whisper:     plainFormatter(profaneword.NewLowercaseFormatter).formatF(),
 		reverse:     plainFormatter(profaneword.NewWordReversingFormatter).formatF(),
 		swear:       plainFormatter(profaneword.NewSwearFormatter).formatF(),
+		studder:     plainFormatter(profaneword.NewStudderFormatter).formatF(),
+		horse:       plainFormatter(profaneword.NewHorseFormatter).formatF(),
+		shuffle:     plainFormatter(profaneword.NewShuffleFormatter).formatF(),
 		randomly:    getRandomlyFormatter,
 		random:      getRandomFormatter,
 	}

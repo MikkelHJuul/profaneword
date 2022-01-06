@@ -16,12 +16,14 @@ type CharFormatter interface {
 	FormatRune(rune) []rune
 }
 
+//WrappingCharFormatter is an interface of a CharFormatter that wraps another CharFormatter
 type WrappingCharFormatter interface {
 	CharFormatter
 	SetCharFormatter(CharFormatter)
 	GetCharFormatter() CharFormatter
 }
 
+//WrappingFormatter is an interface of a Formatter that wraps another Formatter
 type WrappingFormatter interface {
 	Formatter
 	SetFormatter(Formatter)
@@ -80,23 +82,27 @@ func (c *CharFormatterDelegatingFormatter) Format(word string) string {
 	return string(out)
 }
 
+//SetCharFormatter sets the CharFormatter to be wrapped by CharFormatterDelegatingFormatter
 func (c *CharFormatterDelegatingFormatter) SetCharFormatter(formatter CharFormatter) {
 	c.CharFormatter = formatter
 }
 
+//GetCharFormatter returns the wrapped CharFormatter, which is delegated to
 func (c *CharFormatterDelegatingFormatter) GetCharFormatter() CharFormatter {
 	return c.CharFormatter
 }
 
-//PerWordFormattingFormatter delegates to another formatter, but calls the format method for each word
+//PerWordFormattingFormatter delegates to another Formatter, but calls the Format method for each word
 type PerWordFormattingFormatter struct {
 	Other Formatter
 }
 
+//SetFormatter sets the Formatter that PerWordFormattingFormatter should wrap
 func (p *PerWordFormattingFormatter) SetFormatter(formatter Formatter) {
 	p.Other = formatter
 }
 
+//GetFormatter returns the wrapped formatter of PerWordFormattingFormatter
 func (p *PerWordFormattingFormatter) GetFormatter() Formatter {
 	return p.Other
 }
@@ -117,10 +123,7 @@ type RandomlyFormattingFormatter struct {
 	Other Formatter
 }
 
-var _ Formatter = &RandomlyFormattingFormatter{
-	thresholdRandom: thresholdRandom{},
-	Other:           nil,
-}
+var _ Formatter = &RandomlyFormattingFormatter{}
 
 //Format calls the Other > Format at a rate of 50%
 func (rff *RandomlyFormattingFormatter) Format(word string) string {
@@ -130,10 +133,12 @@ func (rff *RandomlyFormattingFormatter) Format(word string) string {
 	return word
 }
 
+//SetFormatter sets the wrapped Formatter of RandomlyFormattingFormatter
 func (rff *RandomlyFormattingFormatter) SetFormatter(wrap Formatter) {
 	rff.Other = wrap
 }
 
+//GetFormatter returns the Formatter that RandomlyFormattingFormatter wraps
 func (rff *RandomlyFormattingFormatter) GetFormatter() Formatter {
 	return rff.Other
 }
@@ -161,10 +166,7 @@ func RandomTitleFormatter() Formatter {
 	return NewRandomlyFormatter(TitleFormatter{})
 }
 
-var _ Formatter = &RandomlyFormattingFormatter{
-	thresholdRandom: thresholdRandom{},
-	Other:           nil,
-}
+var _ Formatter = &RandomlyFormattingFormatter{}
 
 //RegexReplacingFormatter is a Formatter that performs a regex replace functionality on the given text
 type RegexReplacingFormatter struct {
@@ -210,21 +212,26 @@ type swearFormatter struct {
 	CharFormatter
 }
 
+//SetCharFormatter sets the formatter to be used by swearFormatter
 func (s *swearFormatter) SetCharFormatter(wrap CharFormatter) {
 	s.CharFormatter = wrap
 }
 
+//GetCharFormatter return the swearFormatter CharFormatter
 func (s *swearFormatter) GetCharFormatter() CharFormatter {
 	return s.CharFormatter
 }
 
 var _ Formatter = &swearFormatter{swearCharFormatter{}}
+var _ WrappingCharFormatter = &swearFormatter{swearCharFormatter{}}
 
+//Format of swearFormatter will return the input string if the input does not start with a letter,
+//for all other cases it replaces using the wrapped CharFormatter until it meets a non-letter character
 func (s *swearFormatter) Format(word string) string {
 	if !unicode.IsLetter(rune(word[0])) {
 		return word
 	}
-	var runes []rune
+	var runes = make([]rune, len(word))
 	var i int
 	var c rune
 	for i, c = range word {
@@ -237,8 +244,105 @@ func (s *swearFormatter) Format(word string) string {
 	return string(runes) + `!` + word[i:]
 }
 
+//NewSwearFormatter reuturns a Formatter that replaces each character in a word with cartoonish swear
 func NewSwearFormatter() Formatter {
 	return &PerWordFormattingFormatter{&swearFormatter{&swearCharFormatter{
 		CryptoRand{},
 	}}}
+}
+
+//StudderFormatter is a formatter that writes text that appear like it's studdering
+type StudderFormatter struct {
+	RandomDevice
+}
+
+//Format will return the first character of a word plus '-' up to 4 times, and the word
+func (s StudderFormatter) Format(word string) string {
+	if !unicode.IsLetter(rune(word[0])) {
+		return word
+	}
+	numStudder := s.RandMax(4)
+	sb := strings.Builder{}
+	for i := 0; i < numStudder; i++ {
+		sb.WriteString(word[:1] + "-")
+	}
+	return sb.String() + word
+}
+
+var _ Formatter = StudderFormatter{}
+
+//NewStudderFormatter returns a PerWordFormattingFormatter that wraps a StudderFormatter
+func NewStudderFormatter() Formatter {
+	return &PerWordFormattingFormatter{StudderFormatter{CryptoRand{}}}
+}
+
+//HorseFormatter returns horse-related banter for each call
+type HorseFormatter struct {
+	RandomDevice
+}
+
+var horsewords = []string{
+	"horse",
+	"horsey",
+	"Horsey-Mc-Horseface",
+	"mare",
+	"stallion",
+	"mustang",
+	"ride",
+	"riding",
+	"saddle",
+	"saddlebags",
+	"blinders",
+	"colt",
+	"filly",
+	"bronco",
+	"foal",
+	"gilding",
+	"steed",
+	"pony",
+	"cavalry",
+	"cavalier",
+	"jenny",
+	"equine",
+	"jock",
+	"jockey",
+	"horseshoe",
+}
+
+//Format returns a random horse-related word
+func (s HorseFormatter) Format(_ string) string {
+	idx := s.RandMax(len(horsewords))
+	return horsewords[idx]
+}
+
+var _ Formatter = HorseFormatter{}
+
+//NewHorseFormatter returns a PerWordFormattingFormatter wrapping a HorseFormatter
+func NewHorseFormatter() Formatter {
+	return &PerWordFormattingFormatter{HorseFormatter{CryptoRand{}}}
+}
+
+//ShuffleFormatter shuffles the given string
+type ShuffleFormatter struct {
+	RandomDevice
+}
+
+//Format shuffles the characters of an input string and returns a new shuffled string
+func (s ShuffleFormatter) Format(text string) string {
+	word := []byte(text)
+	wlen := len(word)
+	shuffledWord := make([]byte, wlen)
+	for i := 0; i < wlen; i++ {
+		idx := s.RandMax(wlen - i)
+		shuffledWord[i] = word[idx]
+		word[idx] = word[wlen-1-i]
+	}
+	return string(shuffledWord)
+}
+
+var _ Formatter = ShuffleFormatter{}
+
+//NewShuffleFormatter returns a PerWordFormattingFormatter wrapping a ShuffleFormatter
+func NewShuffleFormatter() Formatter {
+	return &PerWordFormattingFormatter{ShuffleFormatter{CryptoRand{}}}
 }

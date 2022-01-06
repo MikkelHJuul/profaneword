@@ -39,10 +39,13 @@ Args[formatters]:
   uber1337        output formatted with an extended 1337 alphabet
   fat             output some t3xt wifth fat fringers
   fst             otput sme tet writen wit haste
-  esrever         desrever tuptuo, per word; this cannot be coupled with 'random', functionality of 'random' will be ignored
+  esrever         desrever tuptuo, per word [random does not apply]
+  shuffle         tuoput si ffudlehs
   SCREAM          OUTPUT IS UPPERCASE
   whisper         output is lowercased
-  swear           output cartoonish #%$@!!
+  swear           output cartoonish #%$@!! 
+  studder         o-o-output s-s-s-studdering t-text [random does not apply]
+  horse           just output horse-related words in stead[very unsafe] [random does not apply]
   /s              sARcaSTiC OUtpUt
 	
   randomly        the next formatter is applied only randomly (per word basis) threshold is 50:50
