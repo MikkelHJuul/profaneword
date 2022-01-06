@@ -85,7 +85,7 @@ var (
 		Use:   "version",
 		Short: "print the version and exit",
 		Run: func(cmd *cobra.Command, _ []string) {
-			cmd.Print("0.6.2")
+			cmd.Print("0.7.1")
 		},
 	}
 )
