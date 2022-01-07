@@ -1,13 +1,16 @@
 package profanities
 
-//Word is a bitmask for marking Word type in this library
+//Word is a bitmask for marking Word type in this library, fx, placement in a sentence
 type Word uint8
 
 const (
-	//START FILLER END EXCL -- word placement wrt sentences
+	//START at the start of a word
 	START Word = 1 << iota
+	//FILLER - just somewhere
 	FILLER
+	//END of the sentence
 	END
+	//EXCL - as an exclamation, like: "DAMN!"
 	EXCL
 	//SPLIT reserved for future sentence-construction (splitting using words)
 	SPLIT
