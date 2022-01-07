@@ -15,7 +15,7 @@ go install github.com/MikkelHJuul/profaneword/profaneword@latest
 play
 ```
 ❯ profaneword
-Ad vs. Mean
+shagg'n is mandatory!?
 
 ❯ while true; do profaneword;done
 Nastile? Enslaving!?
@@ -43,7 +43,7 @@ Soggy 8===D Tripp'N 8===D
 
 ~ 
 ❯ profaneword --extend
-shagg'n is mandatory!?
+Dix Ogre - Pit
 
 ~ 
 ❯ profaneword --EXTEND
