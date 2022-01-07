@@ -1,6 +1,7 @@
 package profaneword
 
 import (
+	"fmt"
 	"math/big"
 	"testing"
 )
@@ -141,5 +142,23 @@ func TestCharFormatterDelegatingFormatter_Format(t *testing.T) {
 	got := string(del.GetCharFormatter().(*cachingCharFormatter).text)
 	if got != "asd" {
 		t.Errorf("CharFormatterDelegatingFormatter did not pass text correctly")
+	}
+}
+
+type countingFormatter struct {
+	int
+}
+
+func (c *countingFormatter) Format(word string) string {
+	defer func() { c.int++ }()
+	return fmt.Sprintf(`%d`, c.int)
+}
+
+func TestPerWordFormattingFormatter_Format(t *testing.T) {
+	pw := PerWordFormattingFormatter{}
+	pw.SetFormatter(&countingFormatter{})
+	got := pw.Format("any three words")
+	if "0 1 2" != got {
+		t.Errorf("unexpected return from PerWordFormattingFormatter")
 	}
 }
