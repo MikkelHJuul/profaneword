@@ -231,7 +231,7 @@ func (s *swearFormatter) Format(word string) string {
 	if !unicode.IsLetter(rune(word[0])) {
 		return word
 	}
-	var runes = make([]rune, len(word))
+	var runes []rune
 	var i int
 	var c rune
 	for i, c = range word {
@@ -241,7 +241,11 @@ func (s *swearFormatter) Format(word string) string {
 			break
 		}
 	}
-	return string(runes) + `!` + word[i:]
+	suffix := ""
+	if i < len(word)-1 {
+		suffix = word[i:]
+	}
+	return string(runes) + `!` + suffix
 }
 
 //NewSwearFormatter reuturns a Formatter that replaces each character in a word with cartoonish swear
