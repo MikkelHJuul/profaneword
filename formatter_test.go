@@ -115,3 +115,10 @@ func TestReversingFormatter_Format(t *testing.T) {
 		t.Errorf("expected ReversingFormatter to reverse the string")
 	}
 }
+
+func TestTitleFormatter_Format(t *testing.T) {
+	tf := TitleFormatter{}
+	if "Asd" != tf.Format("asd") {
+		t.Errorf("incorrect titling")
+	}
+}
