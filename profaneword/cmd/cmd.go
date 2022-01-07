@@ -139,7 +139,7 @@ func disallowedWords(cmd *cobra.Command) (disallowed profanities.Word) {
 			disallowed = disallowed | profanities.POSITIVE
 			continue
 		}
-		errUseEnd(cmd, "unknown dissallowed word: "+nope)
+		errUseEnd(cmd, "unknown disallowed word: "+nope)
 	}
 	return
 }
