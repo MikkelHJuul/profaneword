@@ -122,3 +122,24 @@ func TestTitleFormatter_Format(t *testing.T) {
 		t.Errorf("incorrect titling")
 	}
 }
+
+type cachingCharFormatter struct {
+	text []rune
+}
+
+func (c *cachingCharFormatter) FormatRune(r rune) []rune {
+	c.text = append(c.text, r)
+	return []rune{r}
+}
+
+var _ CharFormatter = &cachingCharFormatter{}
+
+func TestCharFormatterDelegatingFormatter_Format(t *testing.T) {
+	del := CharFormatterDelegatingFormatter{}
+	del.SetCharFormatter(&cachingCharFormatter{})
+	del.Format("asd")
+	got := string(del.GetCharFormatter().(*cachingCharFormatter).text)
+	if got != "asd" {
+		t.Errorf("CharFormatterDelegatingFormatter did not pass text correctly")
+	}
+}
