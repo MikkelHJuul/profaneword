@@ -163,14 +163,30 @@ Use "profaneword [command] --help" for more information about a command.
 
 all formatters available with obscure, examples
 ```
-
-❯ echo DASDAD | profaneword obscure /s 
-DasDad
+❯ echo 'a quick brown fox jumps over the lazy dog' | profaneword obscure studder randomly shuffle
+a -u-kciqqq wrnbo f-fx-ffo- mpusj -roove t-he-t-tt l-lazy d-d-dog
 
 ~ 
-❯ echo DASDAD | profaneword obscure 1337
-D45D4D
+❯ echo 'a quick brown fox jumps over the lazy dog' | profaneword obscure studder
+a-a-a-a q-q-quick brown f-f-f-fox j-j-jumps over t-t-the l-lazy d-d-d-dog
 
+~ 
+❯ echo 'a quick brown fox jumps over the lazy dog' | profaneword obscure fst
+ic brown ox umpsove the lay dog
+
+~ 
+❯ echo 'a quick brown fox jumps over the lazy dog' | profaneword obscure fat
+a quick berian fox jumps over the lazyt dog
+
+~ 
+❯ echo 'a quick brown fox jumps over the lazy dog' | profaneword obscure randomly 1337 randomly uber1337
+a ()_|_|!<|< !312()'//|\| f0x jumps over 7]-[3 lazy dog
+
+~ 
+❯ echo 'a quick brown fox jumps over the lazy dog' | profaneword obscure randomly 1337 /s
+4 QuicK 8r0WN f0x JUMp5 oVEr the 142y D06
+
+~ 
 ```
 
 
