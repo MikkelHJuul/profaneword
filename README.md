@@ -186,6 +186,10 @@ a ()_|_|!<|< !312()'//|\| f0x jumps over 7]-[3 lazy dog
 ❯ echo 'a quick brown fox jumps over the lazy dog' | profaneword obscure randomly 1337 /s
 4 QuicK 8r0WN f0x JUMp5 oVEr the 142y D06
 
+~
+❯ echo 'a quick brown fox jumps over the lazy dog' | profaneword -d RAND obscure
+a%quick%brown%fox%jumps%over%the%lazy%dog
+
 ~ 
 ```
 
