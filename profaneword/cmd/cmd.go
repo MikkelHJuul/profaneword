@@ -64,7 +64,7 @@ var (
 	profaneCmd = &cobra.Command{
 		Use:       "profaneword",
 		Short:     "A generator for profane passwords as requested by u/gatestone",
-		Long:      `profaneword is a CLI library and tool for generating obscene/profane passwords.`,
+		Long:      `profaneword is a program for generating obscene/profane passwords, and library.`,
 		Args:      cobra.OnlyValidArgs,
 		ValidArgs: formatters,
 		Run:       profaneWords,
@@ -128,18 +128,15 @@ func profaneWords(cmd *cobra.Command, args []string) {
 func disallowedWords(cmd *cobra.Command) (disallowed profanities.Word) {
 	no, _ := cmd.PersistentFlags().GetString("no")
 	for _, nope := range strings.Split(no, "|") {
-		if nope == "" {
-			continue
-		}
-		if nope == "MISSPELL" {
+		switch nope {
+		case "MISSPELL":
 			disallowed = disallowed | profanities.MISSPELL
-			continue
-		}
-		if nope == "POSITIVE" {
+		case "POSITIVE":
 			disallowed = disallowed | profanities.POSITIVE
-			continue
+		case "":
+		default:
+			errUseEnd(cmd, "unknown disallowed word: "+nope)
 		}
-		errUseEnd(cmd, "unknown disallowed word: "+nope)
 	}
 	return
 }
