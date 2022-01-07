@@ -167,7 +167,7 @@ func numWordsFrom(cmd *cobra.Command) int { //errs?
 
 func obscureFunc(cmd *cobra.Command, args []string) {
 	reader := bufio.NewReader(os.Stdin)
-	delim := getDelimiter(cmd)
+	delim := getDelimiter(cmd.Root())
 	formatter := formatterOf(args, profaneword.RandomTitleFormatter(), profaneword.DelimiterFormatterWith(delim))
 	for {
 		text, err := reader.ReadString('\n')

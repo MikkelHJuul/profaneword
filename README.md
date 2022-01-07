@@ -43,7 +43,7 @@ Soggy 8===D Tripp'N 8===D
 
 ~ 
 ❯ profaneword --extend
-Dix Ogre - Pit
+shagg'n is mandatory!?
 
 ~ 
 ❯ profaneword --EXTEND
@@ -96,7 +96,6 @@ succumb?!.Infertile
 ❯ profaneword -d RAND
 sissy+is+Excommunication
 
-
 ~ 
 ❯ profaneword --no MISSPELL
 Awkwardly? sex-exacerbate!
@@ -104,6 +103,16 @@ Awkwardly? sex-exacerbate!
 ~ 
 ❯ profaneword swear
 *%"%$@$&+!e %"!s +@*%*+&$!?
+
+❯ profaneword randomly horse
+saddlebags sex-lowsy
+
+~ 
+❯ profaneword studder
+v-v-v-vomittin' i-is torture!
+
+❯ profaneword studder randomly shuffle
+F-FU!? n-coiS-A-RSSO-fS-te-  #S-S-S-Son-Of-A-R*
 
 ~ 
 ❯ profaneword --help
@@ -132,12 +141,15 @@ Args[formatters]:
   uber1337        output formatted with an extended 1337 alphabet
   fat             output some t3xt wifth fat fringers
   fst             otput sme tet writen wit haste
-  esrever         desrever tuptuo, per word; this cannot be coupled with 'random', functionality of 'random' will be ignored
+  esrever         desrever tuptuo, per word [random does not apply]
+  shuffle         tuoput si ffudlehs
   SCREAM          OUTPUT IS UPPERCASE
   whisper         output is lowercased
-  swear           output cartoonish #%$@!!
+  swear           output cartoonish #%$@!! 
+  studder         o-o-output s-s-s-studdering t-text [random does not apply]
+  horse           just output horse-related words in stead[very unsafe] [random does not apply]
   /s              sARcaSTiC OUtpUt
-        
+	
   randomly        the next formatter is applied only randomly (per word basis) threshold is 50:50
   random          the next formatter is applied only randomly (per character basis) threshold is 50:50
                   both "random" and "randomly" are chainable onto themselves, 
@@ -166,9 +178,9 @@ D45D4D
 The file [`data_report_test.go`](profanities/data_report_test.go) computes the number of combinations:
 
 for...
-* 1 word there will be 54.60 thousand combinations and on average 8.22 letters in each word
-* 2 words there will be 6.25 billion combinations and on average 8.25 letters in each word
-* 3 words there will be 715.97 trillion combinations and on average 8.25 letters in each word
+* 1 word there will be 57.68 thousand combinations and on average 8.24 letters in each word
+* 2 words there will be 6.92 billion combinations and on average 8.29 letters in each word
+* 3 words there will be 839.62 trillion combinations and on average 8.29 letters in each word
 
 These numbers refer to the database level
 
