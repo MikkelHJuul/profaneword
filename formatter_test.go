@@ -24,15 +24,15 @@ func TestShuffleFormatter_Format(t *testing.T) {
 	}
 }
 
-type nonRandomDevice struct {
+type countRandomDevice struct {
 	counter int
 }
 
-func (n *nonRandomDevice) Rand() *big.Rat {
+func (n *countRandomDevice) Rand() *big.Rat {
 	return big.NewRat(1, 1)
 }
 
-func (n *nonRandomDevice) RandMax(max int) int {
+func (n *countRandomDevice) RandMax(max int) int {
 	if n.counter == max {
 		n.counter = 0
 		return max
@@ -41,11 +41,11 @@ func (n *nonRandomDevice) RandMax(max int) int {
 	return n.counter - 1
 }
 
-var _ RandomDevice = &nonRandomDevice{}
+var _ RandomDevice = &countRandomDevice{}
 
 func TestHorseFormatter_Format(t *testing.T) {
 	words := make([]string, len(horsewords))
-	h := HorseFormatter{&nonRandomDevice{}}
+	h := HorseFormatter{&countRandomDevice{}}
 	for i := 0; i < len(horsewords); i++ {
 		got := h.Format("")
 		words[i] = got
@@ -57,26 +57,43 @@ func TestHorseFormatter_Format(t *testing.T) {
 	}
 }
 
-var _ RandomDevice = &nonRandomDevice{}
+var _ RandomDevice = &countRandomDevice{}
+
+type maxRandomDevice struct{}
+
+func (maxRandomDevice) Rand() *big.Rat {
+	panic("implement me")
+}
+
+func (maxRandomDevice) RandMax(max int) int {
+	return max - 1
+}
+
+var _ RandomDevice = maxRandomDevice{}
 
 func TestShuffleFormatter_Format_NonRandom(t *testing.T) {
 	in := "SOMETHING"
-	h := ShuffleFormatter{&nonRandomDevice{}}
+	h := ShuffleFormatter{&countRandomDevice{}}
 	got := h.Format(in)
 	if in != got {
 		t.Errorf("non-random shuffle should be No-op, expected: %s, got %s", in, got)
+	}
+	sh := ShuffleFormatter{maxRandomDevice{}}
+	got = sh.Format(in)
+	if "GNIHTEMOS" != got { //S gets picked first before a s
+		t.Errorf("non-random max-shuffle should return GNIHTEMOS (reverse), got %s", got)
 	}
 }
 
 func TestStudderFormatter_Format(t *testing.T) {
 	in := "zero one two three four zero"
-	s := PerWordFormattingFormatter{StudderFormatter{&nonRandomDevice{}}}
+	s := PerWordFormattingFormatter{StudderFormatter{&countRandomDevice{}}}
 	got := s.Format(in)
 	expected := "zero o-one t-t-two t-t-t-three f-f-f-f-four zero"
 	if got != expected {
 		t.Errorf("non random studder should be non-random: expected %s, got %s", expected, got)
 	}
-	ss := StudderFormatter{&nonRandomDevice{}}
+	ss := StudderFormatter{&countRandomDevice{}}
 	got = ss.Format(in)
 	if got != in {
 		t.Errorf("non random studder should be non-random: expected %s, got %s", expected, got)
