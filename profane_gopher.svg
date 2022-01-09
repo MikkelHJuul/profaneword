@@ -36,8 +36,8 @@
    id="namedview969"
    showgrid="false"
    inkscape:zoom="0.70710678"
-   inkscape:cx="545.2948"
-   inkscape:cy="167.27048"
+   inkscape:cx="497.26914"
+   inkscape:cy="-41.124115"
    inkscape:window-x="67"
    inkscape:window-y="27"
    inkscape:window-maximized="0"
@@ -184,22 +184,23 @@
    style="clip-rule:evenodd;fill-rule:evenodd" />
 </g>
 <rect
-   style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2.27057052;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+   style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
    id="rect975"
    width="129.06902"
    height="46.223057"
    x="783.29584"
    y="78.483467" /><text
    xml:space="preserve"
-   style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:28.60738564px;line-height:1.25;font-family:aakar;-inkscape-font-specification:'aakar Medium';letter-spacing:2.41374826px;word-spacing:4.31792879px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.53638852"
-   x="804.15314"
-   y="110.66473"
+   style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:35.16177368px;line-height:1.25;font-family:aakar;-inkscape-font-specification:'aakar Medium';letter-spacing:2.9667747px;word-spacing:5.3072319px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.65928328"
+   x="788.47424"
+   y="115.79361"
    id="text979"><tspan
      sodipodi:role="line"
-     x="804.15314"
-     y="110.66473"
+     x="788.47424"
+     y="115.79361"
      id="tspan981"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Gubbi;-inkscape-font-specification:Gubbi;stroke-width:0.53638852">!#~%</tspan></text>
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Chandas;-inkscape-font-specification:Chandas;stroke-width:0.65928328">!#~%</tspan></text>
+
 
 
 <text
@@ -213,6 +214,7 @@
      x="57.058929"
      y="179.91051"
      style="stroke-width:10;-inkscape-font-specification:Chandas;font-family:Chandas;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;fill:#adbac7;fill-opacity:1;stroke:#22272e;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-linejoin:round">profaneword</tspan></text>
+
 <text
    id="text845"
    y="179.91051"
@@ -224,5 +226,6 @@
      x="57.058929"
      id="tspan843"
      sodipodi:role="line">profaneword</tspan></text>
+
 
 </svg>
