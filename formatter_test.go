@@ -162,3 +162,20 @@ func TestPerWordFormattingFormatter_Format(t *testing.T) {
 		t.Errorf("unexpected return from PerWordFormattingFormatter")
 	}
 }
+
+type appendingFormatter string
+
+func (a appendingFormatter) Format(word string) string {
+	return word + string(a)
+}
+
+func TestMultiFormatter_Format(t *testing.T) {
+	one, two, three := appendingFormatter("one"), appendingFormatter("two"), appendingFormatter("three")
+	mf := MultiFormatter{}
+	mf.With(one)
+	mf.With(two)
+	mf.With(three)
+	if "onetwothree" != mf.Format("") {
+		t.Errorf("unexpected formatting of MultiFormatter")
+	}
+}
