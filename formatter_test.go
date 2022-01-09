@@ -149,7 +149,7 @@ type countingFormatter struct {
 	int
 }
 
-func (c *countingFormatter) Format(word string) string {
+func (c *countingFormatter) Format(_ string) string {
 	defer func() { c.int++ }()
 	return fmt.Sprintf(`%d`, c.int)
 }
