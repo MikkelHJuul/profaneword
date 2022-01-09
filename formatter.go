@@ -75,7 +75,7 @@ var _ Formatter = &CharFormatterDelegatingFormatter{}
 
 //Format calls the wrapped CharFormatter's FormatRune-method
 func (c *CharFormatterDelegatingFormatter) Format(word string) string {
-	out := make([]rune, len(word))
+	var out []rune
 	for _, r := range word {
 		out = append(out, c.FormatRune(r)...)
 	}
