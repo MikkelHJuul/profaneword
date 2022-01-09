@@ -1,4 +1,4 @@
-![profane gopher](./profane_gopher.svg)
+![profane gopher](./profane_gopher.png)
 [![Go Report Card](https://goreportcard.com/badge/github.com/MikkelHJuul/profaneword)](https://goreportcard.com/report/github.com/MikkelHJuul/profaneword)
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/MikkelHJuul/profaneword)](https://pkg.go.dev/github.com/MikkelHJuul/profaneword)
 [![Maintainability](https://api.codeclimate.com/v1/badges/62cb1cb88e6391f3aa8d/maintainability)](https://codeclimate.com/github/MikkelHJuul/profaneword/maintainability)
