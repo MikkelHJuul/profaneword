@@ -64,7 +64,7 @@ var (
 	profaneCmd = &cobra.Command{
 		Use:       "profaneword",
 		Short:     "A generator for profane passwords as requested by u/gatestone",
-		Long:      `profaneword is a program for generating obscene/profane passwords, and library.`,
+		Long:      `profaneword is a program for generating obscene/profane passwords.`,
 		Args:      cobra.OnlyValidArgs,
 		ValidArgs: formatters,
 		Run:       profaneWords,
