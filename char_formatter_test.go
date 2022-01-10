@@ -54,7 +54,7 @@ func TestFatFingerCharFormatter_FormatRune(t *testing.T) {
 
 func TestL337Formatter(t *testing.T) {
 	l := L337Formatter()
-	if "45d" != l.Format("asd") {
+	if l.Format("asd") != "45d" {
 		t.Errorf("L337formatter did not format as expected")
 	}
 }

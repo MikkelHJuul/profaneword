@@ -80,7 +80,7 @@ func TestShuffleFormatter_Format_NonRandom(t *testing.T) {
 	}
 	sh := ShuffleFormatter{maxRandomDevice{}}
 	got = sh.Format(in)
-	if "GNIHTEMOS" != got { //S gets picked first before a s
+	if got != "GNIHTEMOS" { //S gets picked first before a s
 		t.Errorf("non-random max-shuffle should return GNIHTEMOS (reverse), got %s", got)
 	}
 }
@@ -108,12 +108,12 @@ func TestSwearFormatter_Format(t *testing.T) {
 	}
 	in = "asdd"
 	got := sf.Format(in)
-	if "asdd!" != got {
+	if got != "asdd!" {
 		t.Errorf("Expected swearFormatter to add exclamation")
 	}
 	in = "asd-asd"
 	got = sf.Format(in)
-	if "asd!-asd" != got {
+	if got != "asd!-asd" {
 		t.Errorf("Expected swearFormatter to add exclamation correctly")
 	}
 }
@@ -129,14 +129,14 @@ func TestNewSwearFormatter(t *testing.T) {
 
 func TestReversingFormatter_Format(t *testing.T) {
 	r := ReversingFormatter{}
-	if "asd" != r.Format("dsa") {
+	if r.Format("dsa") != "asd" {
 		t.Errorf("expected ReversingFormatter to reverse the string")
 	}
 }
 
 func TestTitleFormatter_Format(t *testing.T) {
 	tf := TitleFormatter{}
-	if "Asd" != tf.Format("asd") {
+	if tf.Format("asd") != "Asd" {
 		t.Errorf("incorrect titling")
 	}
 }
@@ -175,7 +175,7 @@ func TestPerWordFormattingFormatter_Format(t *testing.T) {
 	pw := PerWordFormattingFormatter{}
 	pw.SetFormatter(&countingFormatter{})
 	got := pw.Format("any three words")
-	if "0 1 2" != got {
+	if got != "0 1 2" {
 		t.Errorf("unexpected return from PerWordFormattingFormatter")
 	}
 }
@@ -192,7 +192,7 @@ func TestMultiFormatter_Format(t *testing.T) {
 	mf.With(one)
 	mf.With(two)
 	mf.With(three)
-	if "onetwothree" != mf.Format("") {
+	if mf.Format("") != "onetwothree" {
 		t.Errorf("unexpected formatting of MultiFormatter")
 	}
 }

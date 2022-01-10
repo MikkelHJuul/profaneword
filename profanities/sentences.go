@@ -88,9 +88,7 @@ func (pw *ProfanitySentencer) GetSentence(numWords int) *Sentence {
 		cur, s = randSent()
 		pos = s.sentPos
 	}
-	if strings.HasSuffix(cur.format, " ") {
-		cur.format = cur.format[:len(cur.format)-1]
-	}
+	cur.format = strings.TrimSuffix(cur.format, " ")
 	numWords--
 	for ; numWords > 0; numWords-- {
 		prev := cur
