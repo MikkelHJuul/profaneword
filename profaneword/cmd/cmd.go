@@ -91,7 +91,8 @@ var (
 )
 
 func errUseEnd(cmd *cobra.Command, t string) {
-	cmd.PrintErrln(t, "\n")
+	cmd.PrintErrln(t)
+	cmd.Println()
 	_ = cmd.Usage()
 	os.Exit(1)
 }
