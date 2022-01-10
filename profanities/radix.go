@@ -2,8 +2,8 @@ package profanities
 
 type radixWordNode struct {
 	val      string
-	word     Word
 	branches []*radixWordNode
+	word     Word
 }
 
 func (n *radixWordNode) getWordsOf(words []Word, dissallowedWord Word) map[Word][]string {

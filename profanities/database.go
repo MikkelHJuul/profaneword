@@ -202,8 +202,8 @@ var wordData = [...]*radixWordNode{
 	{val: `cancer`, word: END | EXCL, branches: []*radixWordNode{
 		{val: `ous`, word: DEFAULT},
 	}},
-	{`catkiller`, END, plural},
-	{`cat-killer`, END, plural},
+	{val: `catkiller`, word: END, branches: plural},
+	{val: `cat-killer`, word: END, branches: plural},
 	{val: `cheese-eat`, branches: []*radixWordNode{
 		ingNode, erNode,
 	}},
@@ -231,7 +231,7 @@ var wordData = [...]*radixWordNode{
 	{val: `colorless`, word: DEFAULT},
 	{val: `colourless`, word: DEFAULT},
 	{val: `con`, word: END, branches: []*radixWordNode{
-		{`-artist`, END, pluralRelate},
+		{val: `-artist`, word: END, branches: pluralRelate},
 	}},
 	{val: `contriv`, branches: edEndings},
 	{val: `copulat`, branches: []*radixWordNode{
@@ -606,7 +606,7 @@ var wordData = [...]*radixWordNode{
 	{val: `pissed-off`, word: DEFAULT},
 	{val: `pit`, word: END, branches: []*radixWordNode{
 		{val: `iful`, word: DEFAULT, branches: lyEndings},
-		{`y`, DEFAULT, ingEndings},
+		{val: `y`, word: DEFAULT, branches: ingEndings},
 		{val: `y`, word: EXCLS},
 	}},
 	{val: `plump`, word: DEFAULT},

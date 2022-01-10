@@ -14,8 +14,8 @@ type sentnc struct {
 // Sentence is a linked-list of formattable structures, each with a format string,
 // a word (type) that would fit there, and a pointer to the next part of the Sentence
 type Sentence struct {
-	sentnc
 	next *Sentence
+	sentnc
 }
 
 func (s *Sentence) getPart(word string) string {
