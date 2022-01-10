@@ -11,8 +11,8 @@ type sentnc struct {
 	word   Word
 }
 
-//Sentence is a linked-list of formattable structures, each with a format string,
-//a word (type) that would fit there, and a pointer to the next part of the Sentence
+// Sentence is a linked-list of formattable structures, each with a format string,
+// a word (type) that would fit there, and a pointer to the next part of the Sentence
 type Sentence struct {
 	sentnc
 	next *Sentence
@@ -22,13 +22,13 @@ func (s *Sentence) getPart(word string) string {
 	return fmt.Sprintf(s.format, word)
 }
 
-//Sentencer is any object that can return a string using a Sentence
+// Sentencer is any object that can return a string using a Sentence
 type Sentencer interface {
 	Sentence(*Sentence) string
 }
 
-//ProfanitySentencer is a type that implements Sentencer, while integrating the profanities database.
-//ProfanitySentencer is configurable with dissallowed words.
+// ProfanitySentencer is a type that implements Sentencer, while integrating the profanities database.
+// ProfanitySentencer is configurable with dissallowed words.
 type ProfanitySentencer struct {
 	profaneword.RandomDevice
 	dissallowedWord Word
@@ -37,7 +37,7 @@ type ProfanitySentencer struct {
 var _ Sentencer = &ProfanitySentencer{}
 var _ SentenceFetcher = &ProfanitySentencer{}
 
-//Sentence implements the Sentencer interface, using randomized text from the profanities database.
+// Sentence implements the Sentencer interface, using randomized text from the profanities database.
 func (pw *ProfanitySentencer) Sentence(sentence *Sentence) string {
 	builder := strings.Builder{}
 	for s := sentence; s != nil; s = s.next {
@@ -60,20 +60,20 @@ func (pw *ProfanitySentencer) getRandomText(word, dissallowedWord Word) string {
 	return w
 }
 
-//NewProfanitySentencer returns a ProfanitySentencer with the default configuration,
-//passing a dissallowedWord to the Sentencer, and using a profaneword.CryptoRand
+// NewProfanitySentencer returns a ProfanitySentencer with the default configuration,
+// passing a dissallowedWord to the Sentencer, and using a profaneword.CryptoRand
 func NewProfanitySentencer(dissallowedWord Word) ProfanitySentencer {
 	return ProfanitySentencer{profaneword.CryptoRand{}, dissallowedWord}
 }
 
-//SentenceFetcher is an interface for an object that returns a Sentence of a given length.
+// SentenceFetcher is an interface for an object that returns a Sentence of a given length.
 type SentenceFetcher interface {
 	GetSentence(length int) *Sentence
 }
 
-//GetSentence implements SentenceFetcher for ProfanitySentencer.
-//GetSentence builds a sentence of arbitrary length by using the internal
-//flatSentence, recursively calling the internal map of flatSentence, and compiling a Sentence from it
+// GetSentence implements SentenceFetcher for ProfanitySentencer.
+// GetSentence builds a sentence of arbitrary length by using the internal
+// flatSentence, recursively calling the internal map of flatSentence, and compiling a Sentence from it
 func (pw *ProfanitySentencer) GetSentence(numWords int) *Sentence {
 
 	randSent := func() (*Sentence, sent) {

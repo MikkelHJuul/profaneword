@@ -7,7 +7,7 @@ import (
 )
 
 type RandomDevice interface {
-	//Rand is a function that returns a random number between 0 and 1
+	// Rand is a function that returns a random number between 0 and 1
 	Rand() *big.Rat
 	RandMax(max int) int
 }

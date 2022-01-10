@@ -29,7 +29,7 @@ func (n *radixWordNode) getWords(base string, words []Word, dissallowedWord Word
 	return mp
 }
 
-//GetOfSingle returns the Word's of a single Word type, and subtracts all words of the dissallowed type, Word
+// GetOfSingle returns the Word's of a single Word type, and subtracts all words of the dissallowed type, Word
 func (n *radixWordNode) GetOfSingle(word, dissallowedWord Word) []string {
 	return n.getWordsOf([]Word{word}, dissallowedWord)[word]
 }

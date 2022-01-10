@@ -130,9 +130,9 @@ func disallowedWords(cmd *cobra.Command) (disallowed profanities.Word) {
 	for _, nope := range strings.Split(no, "|") {
 		switch nope {
 		case "MISSPELL":
-			disallowed = disallowed | profanities.MISSPELL
+			disallowed |= profanities.MISSPELL
 		case "POSITIVE":
-			disallowed = disallowed | profanities.POSITIVE
+			disallowed |= profanities.POSITIVE
 		case "":
 		default:
 			errUseEnd(cmd, "unknown disallowed word: "+nope)
@@ -150,7 +150,7 @@ func getDelimiter(cmd *cobra.Command) (delim string) {
 	return
 }
 
-func numWordsFrom(cmd *cobra.Command) int { //errs?
+func numWordsFrom(cmd *cobra.Command) int {
 	pflags := cmd.PersistentFlags()
 	ext, _ := pflags.GetInt16("extensiveness")
 	if extend, _ := pflags.GetBool("extend"); extend {

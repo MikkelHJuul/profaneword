@@ -55,7 +55,7 @@ var icallyEndingNode = &radixWordNode{
 	}}
 var icallyEnding = []*radixWordNode{icallyEndingNode}
 
-//wordData is a non-compacted radix-tree, containing all words
+// wordData is a non-compacted radix-tree, containing all words
 var wordData = [...]*radixWordNode{
 	{val: `Christ`, word: END},
 	{val: `Good lord`, word: END},
@@ -69,7 +69,7 @@ var wordData = [...]*radixWordNode{
 	}},
 	{val: `adulter`, branches: []*radixWordNode{
 		erNode,
-		{val: `at`, branches: edEndings}, //adulteration is an impurity in chemical compounds -- not really profane -- too obscure
+		{val: `at`, branches: edEndings}, // adulteration is an impurity in chemical compounds -- not really profane -- too obscure
 	}},
 	{val: `aggress`, branches: []*radixWordNode{
 		{val: `ive`, word: DEFAULT, branches: lyEndings},
@@ -289,7 +289,7 @@ var wordData = [...]*radixWordNode{
 		}},
 	}},
 	{val: `dip-shit`, word: END | DEFAULT | EXCL},
-	{val: `dirty`, word: DEFAULT}, //branching
+	{val: `dirty`, word: DEFAULT}, // branching
 	{val: `disregard`, word: EXCL, branches: ingEdEndings},
 	{val: `dissonan`, branches: []*radixWordNode{
 		{val: `t`, word: DEFAULT},
@@ -324,7 +324,7 @@ var wordData = [...]*radixWordNode{
 	}},
 
 	{val: `eat`, branches: []*radixWordNode{
-		{val: `en`, word: DEFAULT}, //more...
+		{val: `en`, word: DEFAULT}, // more...
 	}},
 	{val: `ecstatic`, word: DEFAULT, branches: []*radixWordNode{
 		{val: `al`, word: DEFAULT, branches: lyEndings},
@@ -980,7 +980,7 @@ var wordData = [...]*radixWordNode{
 	{val: `monstrous`, word: EXCL | DEFAULT, branches: lyEndings},
 	{val: `disrespect`, word: END, branches: ingEdEndings},
 	{val: `disrespectful`, word: DEFAULT, branches: lyEndings},
-	{val: `compromised`, word: DEFAULT}, //ing is positive!
+	{val: `compromised`, word: DEFAULT}, // ing is positive!
 	{val: `overgrown`, word: DEFAULT},
 	{val: `overgrowth`, word: END},
 	{val: `unkempt`, word: DEFAULT},
@@ -992,7 +992,7 @@ var wordData = [...]*radixWordNode{
 	{val: `unend`, branches: ingEdEndings},
 	{val: `uneven`, word: DEFAULT},
 	{val: `uneventful`, word: DEFAULT, branches: lyEndings},
-	{val: `ballistic`, word: DEFAULT}, //ically?
+	{val: `ballistic`, word: DEFAULT}, // ically?
 	{val: `snarky`, word: DEFAULT},
 	{val: `schmartenheimer`, word: END},
 	{val: `schmartenpants`, word: END},

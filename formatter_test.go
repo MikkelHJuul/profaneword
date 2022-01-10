@@ -80,7 +80,7 @@ func TestShuffleFormatter_Format_NonRandom(t *testing.T) {
 	}
 	sh := ShuffleFormatter{maxRandomDevice{}}
 	got = sh.Format(in)
-	if got != "GNIHTEMOS" { //S gets picked first before a s
+	if got != "GNIHTEMOS" { // S gets picked first before a s
 		t.Errorf("non-random max-shuffle should return GNIHTEMOS (reverse), got %s", got)
 	}
 }
