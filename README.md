@@ -116,7 +116,7 @@ F-FU!? n-coiS-A-RSSO-fS-te-  #S-S-S-Son-Of-A-R*
 
 ~ 
 ❯ profaneword --help
-profaneword is a CLI library and tool for generating obscene/profane passwords.
+profaneword is a program for generating obscene/profane passwords.
 
 Usage:
   profaneword [flags] [..args]
