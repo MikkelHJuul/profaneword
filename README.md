@@ -198,9 +198,9 @@ a%quick%brown%fox%jumps%over%the%lazy%dog
 The file [`data_report_test.go`](profanities/data_report_test.go) computes the number of combinations:
 
 for...
-* 1 word there will be 57.68 thousand combinations and on average 8.24 letters in each word
-* 2 words there will be 6.92 billion combinations and on average 8.29 letters in each word
-* 3 words there will be 839.62 trillion combinations and on average 8.29 letters in each word
+* for 1 word there will be 58 thousand combinations and on average 8.16 letters in each word
+* 2 words there will be 6.88 billion combinations and on average 8.21 letters in each word
+* 3 words there will be 811.89 trillion combinations and on average 8.21 letters in each word
 
 These numbers refer to the database level
 
@@ -214,3 +214,4 @@ formatters:
 - `1337` adds one combination, `random 1337` adds a lot of combinations (`2^(~3*n)`). 
 - `uber1337` adds many combinations, `random uber1337` adds a lot of combinations onto those. 
 - using `--no MISSPELL` reduces combinations significantly.
+- using `--weird` adds a lot of combinations
