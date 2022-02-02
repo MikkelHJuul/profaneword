@@ -127,6 +127,9 @@ func profaneWords(cmd *cobra.Command, args []string) {
 }
 
 func disallowedWords(cmd *cobra.Command) (disallowed profanities.Word) {
+	if weird, _ := cmd.PersistentFlags().GetBool("weird"); !weird {
+		disallowed |= profanities.WEIRD
+	}
 	no, _ := cmd.PersistentFlags().GetString("no")
 	for _, nope := range strings.Split(no, "|") {
 		switch nope {
@@ -200,6 +203,7 @@ func init() {
 	profaneCmd.PersistentFlags().StringP("delimiter", "d", " ", "a specific delimiter to use, or '"+RAND+"' for a randomly chosen one from: '"+alternateDelimiters+"'")
 
 	profaneCmd.PersistentFlags().String("no", "", "exclude types of words: can be MISSPELL, POSITIVE or a '|' separated text of those")
+	profaneCmd.PersistentFlags().Bool("weird", false, "allow WEIRD misspellings, like ed-ing: 'd' and ly-endings: 'lee', 'le', 'li'")
 
 	profaneCmd.SetUsageTemplate(usageTpl)
 }
