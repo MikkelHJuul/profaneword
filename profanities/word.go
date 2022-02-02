@@ -18,6 +18,8 @@ const (
 	MISSPELL
 	// POSITIVE is also inherited, and cover words that are not negatively laden
 	POSITIVE
+	// WEIRD covers very special Misspellings
+	WEIRD
 	// DEFAULT covers most normal-kinda words
 	DEFAULT = START | FILLER
 	// EXCLS just a concatenation, because they appear together often
