@@ -408,9 +408,7 @@ var wordData = [...]*radixWordNode{
 	{val: `furious`, word: DEFAULT, branches: lyEndings},
 
 	{val: `gaucherie`, word: DEFAULT},
-	{val: `generic`, word: DEFAULT, branches: []*radixWordNode{
-		{val: `al`, word: DEFAULT, branches: lyEndings},
-	}},
+	{val: `generic`, word: DEFAULT, branches: icallyEnding},
 	{val: `ginormous`, word: DEFAULT},
 	{val: `glutton`, word: END},
 	{val: `gluttonous`, word: DEFAULT, branches: lyEndings},
