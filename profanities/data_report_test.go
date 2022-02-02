@@ -41,7 +41,7 @@ func radixDatabaseAggr(wordToAggregate Word) aggregate {
 	countMap := make(map[string]struct{}, len(wordData))
 	charsTotal := 0
 	for _, r := range wordData {
-		words := r.GetOfSingle(wordToAggregate, NONE)
+		words := r.GetOfSingle(wordToAggregate, WEIRD)
 		for _, wrd := range words {
 			if _, found := countMap[wrd]; !found {
 				countMap[wrd] = struct{}{}
