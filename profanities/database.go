@@ -3,15 +3,15 @@ package profanities
 var edEndings = []*radixWordNode{
 	{val: `ed`, word: DEFAULT},
 	{val: `'d`, word: DEFAULT | MISSPELL},
-	{val: `d`, word: DEFAULT | MISSPELL},
+	{val: `d`, word: DEFAULT | WEIRD},
 }
 
 var ingEndings = []*radixWordNode{
 	{val: `ing`, word: DEFAULT},
 	{val: `in'`, word: DEFAULT | MISSPELL},
 	{val: `'n`, word: DEFAULT | MISSPELL},
-	{val: `n`, word: DEFAULT | MISSPELL},
-	{val: `en`, word: DEFAULT | MISSPELL},
+	{val: `n`, word: DEFAULT | WEIRD},
+	{val: `en`, word: DEFAULT | WEIRD},
 }
 
 var ingEdEndings = append(ingEndings, edEndings...)
@@ -19,7 +19,7 @@ var ingEdEndings = append(ingEndings, edEndings...)
 var erEndings = []*radixWordNode{
 	{val: `er`, word: END | EXCL, branches: pluralRelate},
 	{val: `'r`, word: END | MISSPELL | EXCL, branches: pluralRelate},
-	{val: `r`, word: END | MISSPELL | EXCL, branches: pluralRelate},
+	{val: `r`, word: END | WEIRD | EXCL, branches: pluralRelate},
 }
 
 var ingEdNode = &radixWordNode{branches: ingEdEndings}
@@ -31,9 +31,9 @@ var erNode = &radixWordNode{branches: erEndings}
 var edNode = &radixWordNode{branches: edEndings}
 var lyEndings = []*radixWordNode{
 	{val: `ly`, word: DEFAULT},
-	{val: `li`, word: DEFAULT | MISSPELL},
-	{val: `lee`, word: DEFAULT | MISSPELL},
-	{val: `le`, word: DEFAULT | MISSPELL},
+	{val: `li`, word: DEFAULT | WEIRD},
+	{val: `lee`, word: DEFAULT | WEIRD},
+	{val: `le`, word: DEFAULT | WEIRD},
 }
 var lyEndingsNode = &radixWordNode{branches: lyEndings}
 
