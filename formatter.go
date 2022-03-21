@@ -4,6 +4,9 @@ import (
 	"regexp"
 	"strings"
 	"unicode"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 // Formatter is a formatter, that formats the entire input text(string) and outputs the formatted text
@@ -156,9 +159,11 @@ type TitleFormatter struct{}
 
 var _ Formatter = TitleFormatter{}
 
+var titler = cases.Title(language.Und)
+
 // Format calls strings.Title on the given text
 func (TitleFormatter) Format(word string) string {
-	return strings.Title(word)
+	return titler.String(word)
 }
 
 // RandomTitleFormatter returns a formatter that titles only every other time
