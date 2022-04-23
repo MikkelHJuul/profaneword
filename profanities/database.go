@@ -1341,4 +1341,8 @@ var wordData = [...]*radixWordNode{
 	{val: `futile`, word: DEFAULT | EXCL},
 	{val: `futility`, word: END | EXCL},
 	{val: `apologet`, branches: icallyEnding},
+
+	{val: `flippant`, word: DEFAULT, branches: lyEndings},
+	{val: `facetious`, word: DEFAULT, branches: lyEndings},
+	{val: `facetiousness`, word: END},
 }
